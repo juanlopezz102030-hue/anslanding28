@@ -1,0 +1,124 @@
+/* ========== RESET & BASE ========== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root{
+  --bg:#0b0e13;          /* Base oscura (profesional) */
+  --text:#ffffff;        /* Texto principal */
+  --muted:#e8eeec;       /* Texto secundario */
+  --cta:#25D366;         /* Verde WhatsApp (solo acción) */
+  --cta-glow: rgba(37,211,102,.45);
+}
+
+@media (prefers-reduced-motion: no-preference){
+  :root { --trans: .18s ease; }
+}
+@media (prefers-reduced-motion: reduce){
+  :root { --trans: 0s; }
+}
+
+html, body { min-height: 100%; }
+body{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========== HERO ========== */
+.hero{
+  position: relative;
+  min-height: 100vh;
+  background: url('hero-bg.jpg') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+.overlay{
+  position: absolute;
+  inset: 0;
+  /* overlay más profundo para legibilidad del texto sobre foto */
+  background: linear-gradient(180deg, rgba(0,0,0,.62), rgba(0,0,0,.58));
+}
+.hero-inner{ position: relative; z-index: 1; max-width: 560px; }
+
+/* ========== TITULOS & TEXTOS ========== */
+h1{
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  margin-bottom: .8rem;
+  /* glow sutil verde para anclar marca de acción */
+  text-shadow: 0 0 12px var(--cta-glow), 0 2px 6px rgba(0,0,0,.55);
+}
+.accent{ color: #fff; }            /* antes amarillo -> ahora blanco para máximo contraste */
+.sub{
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+  color: var(--muted);
+  text-shadow: 0 1px 4px rgba(0,0,0,.6);
+}
+
+/* ========== BOTON CTA ========== */
+.btn-wa{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  background: var(--cta);
+  color: #fff;                     /* texto blanco sobre verde = alto contraste */
+  font-weight: 800;
+  padding: 1rem 1.4rem;
+  border-radius: .9rem;
+  font-size: 1.08rem;
+  text-decoration: none;
+  transition: transform var(--trans), filter var(--trans), box-shadow var(--trans);
+  box-shadow: 0 0 16px var(--cta-glow);
+}
+.btn-wa:hover{ transform: scale(1.05); filter: brightness(1.05); }
+.btn-wa:active{ transform: scale(.98); filter: brightness(.98); }
+.btn-wa:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.75), 0 0 0 6px var(--cta-glow);
+}
+
+/* ========== PRUEBA SOCIAL ========== */
+.social{
+  margin-top: 1rem;
+  font-size: .98rem;
+  color: var(--cta);
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0,0,0,.55);
+}
+
+/* ========== STICKY CTA (MÓVIL) ========== */
+.sticky-cta{
+  position: fixed;
+  inset: auto 0 0 0;
+  background: rgba(11,14,19,.94);
+  border-top: 1px solid rgba(255,255,255,.12);
+  padding: .8rem .8rem calc(.8rem + env(safe-area-inset-bottom));
+  text-align: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.sticky-cta .btn-wa{
+  width: min(520px, 92%);
+  display: inline-flex;
+}
+
+/* ========== RESPONSIVE & ESTRATEGIA CTA ========== */
+/* En móvil: ocultamos el botón central para dejar un único camino (sticky) */
+@media (max-width: 768px){
+  .hero-inner > .btn-wa { display: none; }
+}
+
+/* En desktop: el sticky no es necesario; mostramos el botón central */
+@media (min-width: 769px){
+  .sticky-cta { display: none; }
+}
+
+/* ========== UTILIDADES OPCIONALES ========== */
+/* Ajuste fino del contraste en pantallas muy brillantes */
+@media (prefers-color-scheme: light){
+  .overlay{ background: linear-gradient(180deg, rgba(0,0,0,.66), rgba(0,0,0,.62)); }
+}
