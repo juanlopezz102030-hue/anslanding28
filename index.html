@@ -20,15 +20,41 @@
         <p class="sub">Con carga mínima de <strong>$300</strong></p>
 
         <!-- Live counter pill -->
-        <div class="counter" aria-live="polite" title="Usuarios registrándose ahora mismo">
-          <span class="dot" aria-hidden="true"></span>
+        <div class="counter" aria-live="polite">
+          <span class="dot"></span>
           <span id="live-count">0</span> usuarios registrándose ahora
         </div>
 
         <p class="social">Más de 10.000 jugadores activos</p>
         <p class="fine-print">Promoción por tiempo limitado. Depósitos fáciles, retiros rápidos y atención personalizada.</p>
 
-        <!-- CTA principal (desktop) -->
+        <!-- Payments carousel -->
+        <div class="payments-carousel" aria-label="Medios de pago disponibles">
+          <div class="payments-track">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Prex_logo.svg/320px-Prex_logo.svg.png" alt="Prex">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/MercadoPago-logo.png/320px-MercadoPago-logo.png" alt="MercadoPago">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Banco_Republica_logo.png/320px-Banco_Republica_logo.png" alt="BROU">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Itau_logo.svg/320px-Itau_logo.svg.png" alt="Itaú">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Abitab_logo.svg/2560px-Abitab_logo.svg.png" alt="Abitab">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Redpagos_logo.svg/2560px-Redpagos_logo.svg.png" alt="RedPagos">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Mi_dinero_logo.svg/2560px-Mi_dinero_logo.svg.png" alt="Midinero">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Prex_logo.svg/320px-Prex_logo.svg.png" alt="Prex">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/MercadoPago-logo.png/320px-MercadoPago-logo.png" alt="MercadoPago">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Banco_Republica_logo.png/320px-Banco_Republica_logo.png" alt="BROU">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Itau_logo.svg/320px-Itau_logo.svg.png" alt="Itaú">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Abitab_logo.svg/2560px-Abitab_logo.svg.png" alt="Abitab">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Redpagos_logo.svg/2560px-Redpagos_logo.svg.png" alt="RedPagos">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Mi_dinero_logo.svg/2560px-Mi_dinero_logo.svg.png" alt="Midinero">
+          </div>
+        </div>
+
+        <!-- Security seal -->
+        <div class="security">
+          <span class="shield">🔒</span>
+          Pagos seguros y verificados – Retiros de 12h a 23h
+        </div>
+
+        <!-- CTA Desktop -->
         <a class="btn-wa desktop-only"
            href="https://wa.me/59898558766?text=Hola%2C%20quiero%20mi%20BONO%2020%25%20con%20%24300"
            target="_blank" rel="noopener" aria-label="Reclamar bono por WhatsApp">
@@ -52,57 +78,41 @@
   <!-- Live counter logic -->
   <script>
   (function(){
-    // Config "realista": ritmo por franja horaria (usuarios/minuto)
     function ratePerMinute(date){
       var h = date.getHours();
-      if (h >= 18 || h < 1) return 3.2;      // pico tarde-noche
-      if (h >= 13 && h < 18) return 2.1;     // tarde
-      if (h >= 9  && h < 13) return 1.1;     // mañana
-      return 0.6;                             // madrugada
+      if (h >= 18 || h < 1) return 3.2;
+      if (h >= 13 && h < 18) return 2.1;
+      if (h >= 9  && h < 13) return 1.1;
+      return 0.6;
     }
-
-    // Persistencia por día local
     var keyBase = 'cayo-live-count-base';
     var keyDay  = 'cayo-live-count-day';
     var now = new Date();
     var dayKey = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
     var storedDay = localStorage.getItem(keyDay);
     var base = parseInt(localStorage.getItem(keyBase) || '0',10);
-
     if (storedDay !== dayKey || !base || isNaN(base)) {
-      // Semilla diaria pseudo-aleatoria alrededor de 30-120 usuarios concurrentes visibles
       base = Math.floor(30 + Math.random()*90);
       localStorage.setItem(keyBase, String(base));
       localStorage.setItem(keyDay, dayKey);
     }
-
     var el = document.getElementById('live-count');
-
-    // Simulación de llegadas tipo Poisson: intervalos ~ exponenciales
-    function nextDelayMs(lambdaPerMin){
-      // lambda por segundo
-      var lam = Math.max(0.2, lambdaPerMin / 60);
-      // muestreo exponencial: -ln(U)/lam
-      var u = Math.random();
-      var secs = -Math.log(1-u)/lam;
-      // clamp para que no sea demasiado rápido ni lento
-      return Math.max(2500, Math.min(15000, secs*1000));
-    }
-
     var current = base;
     function render(){ el.textContent = current.toLocaleString('es-UY'); }
     render();
-
+    function nextDelayMs(lambdaPerMin){
+      var lam = Math.max(0.2, lambdaPerMin / 60);
+      var u = Math.random();
+      var secs = -Math.log(1-u)/lam;
+      return Math.max(2500, Math.min(15000, secs*1000));
+    }
     function tick(){
       var r = ratePerMinute(new Date());
-      // incremento 1 la mayoría de veces, a veces 2
       current += (Math.random() < 0.15 ? 2 : 1);
-      // pequeñas caídas ocasionales para realismo
       if (Math.random() < 0.06 && current > 20) current -= 1;
       render();
       setTimeout(tick, nextDelayMs(r));
     }
-
     setTimeout(tick, nextDelayMs(ratePerMinute(now)));
   })();
   </script>
