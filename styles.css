@@ -43,21 +43,30 @@ h1{ font-size:clamp(2.1rem,6.4vw,3.5rem); line-height:1.12; color:var(--title); 
 /* COUNTER */
 .counter{ display:inline-flex; align-items:center; gap:.5rem; margin-top:.1rem; padding:.35rem .7rem; border-radius:999px; background:rgba(0,0,0,.6); font-weight:700; color:#f5fff8; box-shadow:0 6px 20px rgba(0,0,0,.28); }
 .counter .dot{ width:10px; height:10px; border-radius:50%; background:#36e26d; box-shadow:0 0 10px rgba(54,226,109,.9); animation:pulse 1.6s ease-in-out infinite; }
-@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.35);opacity:.6;}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.35);opacity:.6);}}
 
-/* PAYMENTS CAROUSEL */
-.payments-carousel{ overflow:hidden; width:100%; margin-top:1rem; }
-.payments-track{ display:flex; gap:3rem; align-items:center; will-change:transform; animation:payments-scroll 36s linear infinite; }
-.payments-track img{ height:64px; max-width:220px; object-fit:contain; border-radius:12px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.payments-track img:hover{ transform:scale(1.08); box-shadow:0 0 12px rgba(255,255,255,0.65); }
-@keyframes payments-scroll{
-  0%{ transform: translateX(0); }
-  100%{ transform: translateX(-50%); }
-}
+/* PAYMENTS CAROUSEL ALIGNMENT FIX */
+.payments-wrap{ width:100%; display:flex; justify-content:center; }
+.payments-carousel{ overflow:hidden; width:min(560px, 100%); margin-top:.6rem; padding:.2rem 0; position:relative; }
+.payments-carousel:before, .payments-carousel:after{ content:''; position:absolute; top:0; width:18px; height:100%; z-index:2; pointer-events:none; }
+.payments-carousel:before{ left:0; background:linear-gradient(90deg, rgba(0,0,0,.65), transparent); }
+.payments-carousel:after{ right:0; background:linear-gradient(-90deg, rgba(0,0,0,.65), transparent); }
+.payments-track{ display:flex; gap:1.1rem; align-items:center; animation:payments-scroll 32s linear infinite; }
+.payments-track img{ height:54px; width:54px; object-fit:cover; border-radius:14px; background:#0a0a0a; box-shadow:0 6px 18px rgba(0,0,0,.35); }
+@keyframes payments-scroll{ 0%{{transform:translateX(0)}} 100%{{transform:translateX(-50%)}} }
 
 /* SECURITY */
 .security{ margin-top:.8rem; font-size:.9rem; color:#ccefd8; display:flex; align-items:center; gap:.4rem; background:rgba(0,0,0,.55); padding:.4rem .7rem; border-radius:8px; }
-.security .shield{ font-size:1.1rem; }
+
+/* WINNERS FEED */
+.winners{ width:100%; margin-top:.6rem; }
+.winners-title{ font-size:1rem; color:#cfead8; margin-bottom:.35rem; font-weight:700; text-align:left; width:min(560px, 100%); margin-inline:auto; }
+.winners-list{ list-style:none; display:flex; flex-direction:column; gap:.45rem; width:min(560px, 100%); margin-inline:auto; }
+.winner{ display:flex; align-items:center; justify-content:space-between; background:rgba(0,0,0,.55); padding:.55rem .7rem; border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,.25); }
+.avatar{ width:28px; height:28px; border-radius:50%; background:#1c1f24; display:grid; place-items:center; font-weight:800; }
+.w-body{ display:flex; flex-direction:column; text-align:left; margin-left:.6rem; flex:1; }
+.city{ color:#c9d5cf; font-size:.82rem; }
+.w-amt{ font-weight:900; color:#b7ffd1; }
 
 /* BUTTON */
 .btn-wa{ display:inline-flex; align-items:center; justify-content:center; gap:.55rem; background:var(--cta); color:#fff; font-weight:800; padding:1rem 1.4rem; border-radius:.95rem; font-size:1.05rem; text-decoration:none; transition:transform .18s ease,filter .18s ease,box-shadow .18s ease; box-shadow:0 0 18px var(--cta-glow); }
@@ -74,5 +83,5 @@ h1{ font-size:clamp(2.1rem,6.4vw,3.5rem); line-height:1.12; color:var(--title); 
 .sticky-cta .btn-wa{ width:min(520px,92%); display:inline-flex; }
 
 /* RESPONSIVE */
-.mobile-only{display:block;} .desktop-only{display:none;}
-@media(min-width:769px){ .mobile-only{display:none;} .desktop-only{display:inline-flex;} .sticky-cta{display:none;} }
+.mobile-only{{display:block;}} .desktop-only{{display:none;}}
+@media(min-width:769px){{ .mobile-only{{display:none;}} .desktop-only{{display:inline-flex;}} .sticky-cta{{display:none;}} }}
