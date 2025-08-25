@@ -21,11 +21,11 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2082222908951953');
+  fbq('init', '767728059169192');
   fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=2082222908951953&ev=PageView&noscript=1"
+    src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
 
@@ -159,5 +159,38 @@
     updateWinner();
   })();
   </script>
+
+  <!-- WhatsApp click tracking for Meta Pixel -->
+  <script>
+  (function(){
+    function onWaClick(e){
+      try{
+        var a=e.currentTarget;
+        var url=new URL(a.href);
+        var params={};
+        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
+          if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
+        });
+        if (typeof fbq === 'function'){
+          fbq('track','Contact',{content_name:'WhatsApp Click',destination:'whatsapp',...params});
+          fbq('trackCustom','WhatsAppClick',params);
+        }
+      }catch(_){}
+    }
+    function bind(){
+      var sel='a[href^="https://wa.me/"],a[href^="https://api.whatsapp.com/send"]';
+      document.querySelectorAll(sel).forEach(function(a){
+        a.removeEventListener('click', onWaClick);
+        a.addEventListener('click', onWaClick, {passive:true});
+      });
+    }
+    if (document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', bind);
+    } else {
+      bind();
+    }
+  })();
+  </script>
+
 </body>
 </html>
