@@ -19,7 +19,6 @@
         <h1><span class="accent">BONO 20%</span> DE BIENVENIDA</h1>
         <p class="sub">Con carga mínima de <strong>$300</strong></p>
 
-        <!-- Live counter pill -->
         <div class="counter" aria-live="polite">
           <span class="dot"></span>
           <span id="live-count">0</span> usuarios registrándose ahora
@@ -28,29 +27,38 @@
         <p class="social">Más de 10.000 jugadores activos</p>
         <p class="fine-print">Promoción por tiempo limitado. Depósitos fáciles, retiros rápidos y atención personalizada.</p>
 
-        <!-- Payments carousel -->
-        <div class="payments-carousel" aria-label="Medios de pago disponibles">
-          <div class="payments-track">
-            <img src="prex.png" alt="Prex">
-            <img src="itau.png" alt="Itau">
-            <img src="brou.png" alt="Brou">
-            <img src="mercadopago.png" alt="Mercadopago">
-            <img src="scotiabank.png" alt="Scotiabank">
-            <img src="santander.png" alt="Santander">
-            <img src="midinero.png" alt="Midinero">
-            <img src="prex.png" alt="Prex">
-            <img src="itau.png" alt="Itau">
-            <img src="brou.png" alt="Brou">
-            <img src="mercadopago.png" alt="Mercadopago">
-            <img src="scotiabank.png" alt="Scotiabank">
-            <img src="santander.png" alt="Santander">
-            <img src="midinero.png" alt="Midinero">
+        <!-- Payments carousel perfectly centered -->
+        <div class="payments-wrap">
+          <div class="payments-carousel" aria-label="Medios de pago disponibles">
+            <div class="payments-track">
+              <img src="itau.png" alt="Itaú">
+              <img src="brou.png" alt="BROU">
+              <img src="mercadopago.png" alt="Mercado Pago">
+              <img src="scotiabank.png" alt="Scotiabank">
+              <img src="santander.png" alt="Santander">
+              <img src="midinero.png" alt="Midinero">
+              <img src="prex.png" alt="Prex">
+              <!-- duplicate for seamless loop -->
+              <img src="itau.png" alt="Itaú">
+              <img src="brou.png" alt="BROU">
+              <img src="mercadopago.png" alt="Mercado Pago">
+              <img src="scotiabank.png" alt="Scotiabank">
+              <img src="santander.png" alt="Santander">
+              <img src="midinero.png" alt="Midinero">
+              <img src="prex.png" alt="Prex">
+            </div>
           </div>
         </div>
 
         <div class="security">
           <span class="shield">🔒</span>
           Pagos seguros y verificados – Retiros de 12h a 23h
+        </div>
+
+        <!-- Winners feed -->
+        <div class="winners" role="log" aria-live="polite" aria-atomic="false">
+          <h2 class="winners-title">Ganadores recientes</h2>
+          <ul id="winners-list" class="winners-list"></ul>
         </div>
 
         <a class="btn-wa desktop-only"
@@ -73,6 +81,7 @@
   </div>
 
   <script>
+  // Live counter
   (function(){
     function ratePerMinute(date){
       var h = date.getHours();
@@ -110,6 +119,48 @@
       setTimeout(tick, nextDelayMs(r));
     }
     setTimeout(tick, nextDelayMs(ratePerMinute(now)));
+  })();
+
+  // Winners realistic feed
+  (function(){
+    var names = ["Sofía R.", "Martín P.", "Camila D.", "Agustín M.", "Valentina S.", "Nicolás T.", "Lucía V.", "Joaquín L.", "Carolina F.", "Diego B.", "Florencia C.", "Sebastián A.", "Ana G.", "Gonzalo H.", "Andrea Q.", "Matías E.", "Bruno K.", "Julieta N.", "Pablo O.", "Paula J."];
+    var provinces = ["Montevideo", "Canelones", "Maldonado", "Colonia", "Salto", "Paysandú", "San José", "Florida", "Rivera"];
+    var ul = document.getElementById('winners-list');
+
+    function weightedAmount(){
+      // Bias to small wins: 65% 900-2500, 25% 2500-7000, 10% 7000-20000
+      var u = Math.random();
+      var amt;
+      if (u < 0.65) amt = 900 + Math.random()*1600;
+      else if (u < 0.90) amt = 2500 + Math.random()*4500;
+      else amt = 7000 + Math.random()*13000;
+      // Round to nearest 50
+      amt = Math.round(amt/50)*50;
+      return amt;
+    }
+
+    function newItem(){
+      var name = names[Math.floor(Math.random()*names.length)];
+      var city = provinces[Math.floor(Math.random()*provinces.length)];
+      var amount = weightedAmount();
+      var li = document.createElement('li');
+      li.className = 'winner';
+      li.innerHTML = '<span class="avatar">'+name.split(' ')[0][0]+'</span>' +
+                     '<div class="w-body"><strong>'+name+'</strong><span class="city">'+city+'</span></div>' +
+                     '<div class="w-amt">UYU '+ amount.toLocaleString('es-UY') +'</div>';
+      return li;
+    }
+
+    // Seed list
+    for (var i=0;i<6;i++) ul.appendChild(newItem());
+
+    function cycle(){
+      var li = newItem();
+      ul.insertBefore(li, ul.firstChild);
+      if (ul.children.length > 7) ul.removeChild(ul.lastChild);
+      setTimeout(cycle, 3000 + Math.random()*2500);
+    }
+    setTimeout(cycle, 2500);
   })();
   </script>
 </body>
