@@ -32,9 +32,39 @@ h1{font-size:clamp(2.1rem,7vw,3.2rem);color:var(--title);line-height:1.15}
 /* SECURITY */
 .security{margin-top:6px;font-size:.9rem;background:rgba(0,0,0,.55);padding:.45rem .7rem;border-radius:8px;display:inline-flex;align-items:center;gap:.4rem}
 
-/* WINNER */
-.winner-ticker{margin-top:8px;font-size:.98rem;font-weight:800;color:#b7ffd1;background:rgba(0,0,0,.55);padding:.55rem .8rem;border-radius:10px;width:100%;max-width:520px;margin-inline:auto}
-
 /* STICKY CTA (único) */
 .sticky-cta{position:fixed;left:0;right:0;bottom:0;background:rgba(11,14,19,.96);padding:.8rem 12px calc(.8rem + env(safe-area-inset-bottom));text-align:center;border-top:1px solid rgba(255,255,255,.12);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .btn-wa{display:inline-flex;align-items:center;gap:.5rem;background:var(--cta);color:#fff;font-weight:800;padding:1rem 1.2rem;border-radius:.95rem;font-size:1.05rem;text-decoration:none;box-shadow:0 0 18px var(--cta-glow);width:min(520px, 92vw);justify-content:center;margin:0 auto}
+
+
+/* Payments carousel: animated + swipeable */
+.payments-carousel{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.payments-track{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:center;
+  animation:payments-scroll 28s linear infinite;
+  width:max-content;
+}
+.payments-track img{
+  height:54px; width:54px; border-radius:12px; object-fit:cover; display:block;
+  flex:0 0 auto;
+}
+
+
+/* Reviews ticker */
+.reviews-wrap {
+  margin-top: 14px;
+  min-height: 42px;
+}
+.review {
+  font-size: .95rem;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.review.show { opacity: 1; }
