@@ -395,31 +395,16 @@
   <link rel="preload" as="image" href="./assets/hero.jpg">
 
 <style>
-.hero{ position:relative; overflow:hidden; isolation:isolate; min-height:58dvh; touch-action: pan-y; }
-.hero::after{ content:""; position:absolute; inset:0; z-index:0; background: linear-gradient(180deg, rgba(27,0,48,0) 35%, rgba(27,0,48,.55) 65%, rgba(27,0,48,.85) 100%); }
-.slides{ position:absolute; inset:0; display:flex; transition:transform .5s ease; z-index:-1; }
-.slide{ min-width:100%; background-size:cover; background-position:center; background-repeat:no-repeat; position:relative; overflow:hidden; }
-.dots{ position:absolute; left:0; right:0; bottom:10px; display:flex; justify-content:center; gap:6px; z-index:2; }
-.dots button{ width:10px; height:10px; border-radius:50%; border:0; background:rgba(255,255,255,.45); }
-.dots button.active{ background:#fff; transform:scale(1.08); }
-@media (min-width:768px){ .hero{ aspect-ratio:16/9; } }
-</style>
-
-
-<style>
-main{ margin-bottom: 0 !important; }
-</style>
-
-
-<style>
-:root{ --sticky-h: 56px; }
-/* Minimiza el aire global: solo safe-area + 6px */
-.wrap{ padding-bottom: calc(env(safe-area-inset-bottom) + 6px) !important; }
-/* Transición para ocultar la sticky cuando los pagos estén a la vista */
-#stickyBar{ transition: transform .28s ease; will-change: transform; }
-.hide-sticky #stickyBar{ transform: translateY(110%); }
-/* Ajuste suave entre CTA y pagos */
-.payments{ margin-top: 10px !important; margin-bottom: 8px !important; }
+/* Compact payments row between CTA and note (mobile-first) */
+@media (max-width: 480px){
+  .payments{ padding: 6px 0 2px; }
+  .payments h2{ display:none; }             /* oculta el subtítulo para ahorrar alto */
+  .payments .logos{ gap: 8px; }
+  .payments .logos img{ height: 32px; }
+  /* si no entran, permitir scroll horizontal sin romper layout */
+  .payments .logos{ flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .payments .logos::-webkit-scrollbar{ display:none; }
+}
 </style>
 
 </head>
@@ -451,10 +436,8 @@ main{ margin-bottom: 0 !important; }
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="cta-note">Activá tu bono YA</div>
-
-        
-        <section class="payments">
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
+<section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
             <img loading="lazy" src="./assets/santander.png" alt="Santander">
@@ -466,6 +449,10 @@ main{ margin-bottom: 0 !important; }
             <img loading="lazy" src="./assets/prex.png" alt="Prex">
           </div>
         </section>
+<div class="cta-note">Activá tu bono YA</div>
+
+        
+        
 
         <p class="disclaimer">Promoción válida para usuarios nuevos. Sujeto a términos y condiciones.</p>
       </div>
@@ -615,8 +602,8 @@ main{ margin-bottom: 0 !important; }
         });
         if (typeof fbq === 'function'){
           fbq('track','Contact',{event_id:eventId, content_name:'WhatsApp Click', destination:'whatsapp', product:'cayo_uy', value:0, currency:'UYU', ...params});
-          fbq('trackCustom','WhatsAppClick',{ event_id:eventId, product:'cayo_uy', ...params, currency:'UYU', value: 0 });
-          fbq('track','Lead',{ event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', ...params, currency:'UYU', value: 0 });
+          fbq('trackCustom','WhatsAppClick', {event_id:eventId, product:'cayo_uy', ...params});
+          fbq('track','Lead',{event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', ...params});
         }
       }catch(_){}
     }
@@ -630,93 +617,6 @@ main{ margin-bottom: 0 !important; }
     document.addEventListener('DOMContentLoaded', bind);
   })();
   </script>
-
-
-  <script>
-    // edgeGuardSwipeFix: evita que el swipe desde el borde active "volver atrás" en Facebook/IG
-    (function(){
-      var hero = document.getElementById('hero');
-      if(!hero) return;
-      var EDGE_GUARD = 24; // px
-      var isDown=false, isEdge=false, startX=0, currentX=0;
-
-      function onDown(e){
-        var t=e.touches?e.touches[0]:e;
-        var x=t.clientX;
-        isEdge = (x < EDGE_GUARD || x > (window.innerWidth - EDGE_GUARD));
-        isDown = !isEdge;
-        startX = x; currentX = x;
-      }
-      function onMove(e){
-        if(!isDown) return;
-        // Evita que el navegador capte el gesto horizontal como navegación
-        if (e.cancelable) e.preventDefault();
-        var t=e.touches?e.touches[0]:e;
-        currentX = t.clientX;
-      }
-      function onUp(){
-        isDown=false; isEdge=false;
-      }
-      hero.addEventListener('pointerdown', onDown, {passive:true});
-      hero.addEventListener('pointermove', onMove, {passive:false});
-      window.addEventListener('pointerup', onUp, {passive:true});
-      hero.addEventListener('touchstart', onDown, {passive:true});
-      hero.addEventListener('touchmove', onMove, {passive:false});
-      hero.addEventListener('touchend', onUp, {passive:true});
-    })();
-  </script>
-
-
-<script>
-(function(){
-  try{
-    var WHATSAPP_NUMBER = (typeof window.WHATSAPP_NUMBER!=='undefined') ? window.WHATSAPP_NUMBER : "59899259912";
-    var PREFILL_TEXT = (typeof window.PREFILL_TEXT!=='undefined') ? window.PREFILL_TEXT : "Hola, me gustaria registrar mi usuario";
-    function createWaLink(){
-      var base = "https://wa.me/" + WHATSAPP_NUMBER;
-      var url = new URL(base);
-      url.searchParams.set("text", PREFILL_TEXT);
-      var qs = new URLSearchParams(location.search);
-      ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(function(k){
-        var v = qs.get(k);
-        if(v) url.searchParams.set(k, v);
-      });
-      return url.toString();
-    }
-    function applyWaLink(){
-      var link = createWaLink();
-      ["ctaWA","floatingWA","barWA"].forEach(function(id){
-        var el = document.getElementById(id);
-        if(el) el.href = link;
-      });
-    }
-    if(document.readyState === "loading"){
-      document.addEventListener("DOMContentLoaded", applyWaLink);
-    } else {
-      applyWaLink();
-    }
-  }catch(e){}
-})();
-</script>
-
-
-<script>
-(function(){
-  var payments = document.querySelector('.payments');
-  var sticky = document.getElementById('stickyBar');
-  if(!payments || !sticky || !('IntersectionObserver' in window)) return;
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting && e.intersectionRatio >= 0.35){
-        document.body.classList.add('hide-sticky');
-      }else{
-        document.body.classList.remove('hide-sticky');
-      }
-    });
-  }, {threshold:[0,0.35,1]});
-  io.observe(payments);
-})();
-</script>
 
 </body>
 </html>
