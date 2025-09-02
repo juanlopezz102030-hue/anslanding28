@@ -413,10 +413,11 @@ main{ margin-bottom: 0 !important; }
 
 <style>
 :root{ --sticky-h:64px; }
-/* Reservar espacio para la sticky bar en TODO el contenido */
-.wrap{ padding-bottom: calc(var(--sticky-h) + env(safe-area-inset-bottom) + 14px) !important; }
-/* Quitar márgenes extra que pudieran empujar pagos fuera de vista */
-.payments{ margin-bottom: 8px !important; margin-top: 14px !important; }
+.payments{ margin-top:14px !important; margin-bottom:8px !important; }
+/* Spacer to guarantee nothing quede tapado por la sticky */
+.after-payments-spacer{
+  height: calc(var(--sticky-h) + env(safe-area-inset-bottom) + 14px);
+}
 </style>
 
 </head>
@@ -448,9 +449,10 @@ main{ margin-bottom: 0 !important; }
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="cta-note">Activá tu bono YA</div>
 
-<section class="payments">
+        
+        <section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
             <img loading="lazy" src="./assets/santander.png" alt="Santander">
@@ -462,10 +464,7 @@ main{ margin-bottom: 0 !important; }
             <img loading="lazy" src="./assets/prex.png" alt="Prex">
           </div>
         </section>
-<div class="cta-note">Activá tu bono YA</div>
-
-        
-        
+<div class="after-payments-spacer" aria-hidden="true"></div>
 
         <p class="disclaimer">Promoción válida para usuarios nuevos. Sujeto a términos y condiciones.</p>
       </div>
