@@ -25,7 +25,7 @@
       --maxw: 520px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100% overflow-y:auto !important; }
     body{
       margin:0;
       font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -387,9 +387,7 @@
   fbq('init', '767728059169192');
   fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
-  /></noscript>
+  
   <!-- End Meta Pixel Code -->
 
   <link rel="preload" as="image" href="./assets/hero.jpg">
@@ -510,6 +508,10 @@ body{ background:#140026 !important; }
 
 </head>
 <body>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
+  /></noscript>
+
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
 
   <div class="wrap">
@@ -695,13 +697,16 @@ body{ background:#140026 !important; }
         ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
           if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
         });
+        if (typeof fbq === 'function'){}
+      
         if (typeof fbq === 'function'){
-          fbq('track','Contact',{event_id:eventId, content_name:'WhatsApp Click', destination:'whatsapp', product:'cayo_uy', value:0, currency:'UYU', ...params});
-          fbq('trackCustom','WhatsAppClick',{ event_id:eventId, product:'cayo_uy', ...params, currency:'UYU', value: 0 });
-          fbq('track','Lead',{ event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', ...params, currency:'UYU', value: 0 });
+          fbq('track','Lead',{ event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', value:0, currency:'UYU', ...params });
+          fbq('trackCustom','WhatsAppClick',{ event_id:eventId, product:'cayo_uy', ...params, currency:'UYU', value:0 });
         }
-      }catch(_){}
+          }
+      catch(_){}
     }
+    function bind(){
     function bind(){
       var sel='a[href^="https://wa.me/"],a[href^="https://api.whatsapp.com/send"]';
       document.querySelectorAll(sel).forEach(function(a){
@@ -790,6 +795,30 @@ body{ background:#140026 !important; }
     if(dots && dots.children.length <= 1){ dots.innerHTML = ''; }
     window.__SINGLE_SLIDE__ = true;
   }
+})();
+</script>
+
+
+<script>
+(function(){
+  function getHeroVideo(){ return document.querySelector('.hero video'); }
+  function ensureAttrs(v){
+    if(!v) return;
+    v.setAttribute('muted',''); v.muted=true;
+    v.setAttribute('playsinline',''); v.playsInline=true;
+    v.autoplay=true; v.loop=true;
+    v.removeAttribute('controls');
+  }
+  function tryPlay(v){ if(v){ ensureAttrs(v); v.play().catch(()=>{}); } }
+  function resumeHero(){
+    var v=getHeroVideo(); if(v && v.paused && document.visibilityState==='visible') tryPlay(v);
+  }
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) resumeHero(); });
+  window.addEventListener('pageshow',()=>resumeHero());
+  ['pointerdown','touchstart','click','focus'].forEach(ev=>{
+    window.addEventListener(ev,function once(){ tryPlay(getHeroVideo()); window.removeEventListener(ev,once); },{once:true});
+  });
+  window.addEventListener('load',()=>{ var v=getHeroVideo(); if(v){ ensureAttrs(v); tryPlay(v); v.addEventListener('pause',()=>{ if(document.visibilityState==='visible') tryPlay(v); }); } });
 })();
 </script>
 
