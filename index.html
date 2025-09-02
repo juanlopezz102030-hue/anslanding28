@@ -488,6 +488,26 @@ body{ background:#140026 !important; }
 .payments{ margin-top: 6px !important; }
 </style>
 
+
+
+
+
+<style>
+/* Headline refinement with fade-in */
+.headline h1{
+  opacity:0.88 !important;
+  font-size:90% !important; /* slightly larger than previous */
+  margin-bottom:14px !important;
+  animation: fadeInHeadline 1.2s ease-in-out forwards;
+}
+@keyframes fadeInHeadline{
+  0%{ opacity:0; transform:translateY(12px); }
+  100%{ opacity:0.88; transform:translateY(0); }
+}
+.headline{ margin-bottom:0 !important; }
+.cta{ margin-top:8px !important; }
+</style>
+
 </head>
 <body>
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
