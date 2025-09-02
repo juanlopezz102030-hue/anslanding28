@@ -424,22 +424,15 @@ main{ margin-bottom: 0 !important; }
 
 
 <style>
-/* === HERO proportion fix (keep inside card, remove extra spaces) === */
-.hero{ min-height: auto !important; }                 /* quita altura forzada global */
-@media (max-width: 480px){
-  .hero{
-    aspect-ratio: 10 / 13 !important;                 /* proporción de tu tarjeta en móvil */
-    padding-top: calc(env(safe-area-inset-top) + 6px) !important;
-    margin-bottom: 8px !important;                    /* acerca CTA al hero */
-  }
-  .hero .slides, .hero .slide{ margin-top: 0 !important; }
-  .hero [class*="inner"], .hero [class*="wrap"]{
-    padding-top: 0 !important; margin-top: 0 !important;
-  }
+/* === Hero proportion & spacing fix (mobile) === */
+.hero { min-height: auto !important; aspect-ratio: 10 / 13 !important; }
+@media (min-width:768px){
+  .hero { aspect-ratio: 16 / 9 !important; }
 }
-@media (min-width: 768px){
-  .hero{ aspect-ratio: 16 / 9 !important; }           /* desktop panorámico */
-}
+/* Put headline safely inside the card at the bottom */
+.headline { bottom: 6px !important; }
+/* Compact spacing above payments so they're visible without scroll */
+.payments { padding-top: 8px !important; margin-top: 8px !important; }
 </style>
 
 </head>
@@ -463,9 +456,8 @@ main{ margin-bottom: 0 !important; }
       </video>
     </div>
 </div>
-          <div class="slide" style="background-image:url('./assets/hero2.jpg')" data-bg1="#3b1a00" data-bg2="#c94d00"></div>
-          <div class="slide" style="background-image:url('./assets/hero3.jpg')" data-bg1="#ff9900" data-bg2="#bb3a00"></div>
-        </div>
+
+</div>
         <div class="headline">
           <span class="eyebrow">Una recarga, una historia nueva</span>
           <h1><span class="accent">BONUS 20%</span><br>en tu primera carga</h1>
