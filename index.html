@@ -453,21 +453,6 @@ main{ margin-bottom: 0 !important; }
 }
 </style>
 
-  <!--
-    Aclaramos el texto dentro de la hero para que no interfiera con el
-    video. Un fondo semitransparente y difuminado proporciona contraste
-    adecuado sin ocultar el contenido multimedia.
-  -->
-  <style>
-    .hero .headline{
-      background: rgba(15, 0, 28, 0.65);
-      backdrop-filter: blur(4px);
-      border-radius: 16px;
-      margin: 0 16px 12px;
-      padding: 14px 16px;
-    }
-  </style>
-
 </head>
 <body>
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
@@ -499,32 +484,23 @@ main{ margin-bottom: 0 !important; }
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener">
-          <img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon" />
-          <span>Escribinos por WhatsApp</span>
-        </a>
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="cta-note">Activá tu bono YA</div>
 
-        <!--
-          Mueve los métodos de pago al área inmediatamente debajo del botón principal,
-          reemplazando la nota de “Activá tu bono YA”. Esto permite que los
-          visitantes vean todas las opciones de pago sin tener que hacer scroll.
-        -->
+        
         <section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
-            <img loading="lazy" src="./assets/santander.png" alt="Banco Santander" />
-            <img loading="lazy" src="./assets/scotiabank.png" alt="Scotiabank" />
-            <img loading="lazy" src="./assets/brou.png" alt="Banco República (BROU)" />
-            <img loading="lazy" src="./assets/itau.png" alt="Banco Itaú" />
-            <img loading="lazy" src="./assets/mercadopago.png" alt="Mercado Pago" />
-            <img loading="lazy" src="./assets/midinero.png" alt="Mi Dinero" />
-            <img loading="lazy" src="./assets/prex.png" alt="Prex" />
+            <img loading="lazy" src="./assets/santander.png" alt="Santander">
+            <img loading="lazy" src="./assets/scotiabank.png" alt="Scotiabank">
+            <img loading="lazy" src="./assets/brou.png" alt="BROU">
+            <img loading="lazy" src="./assets/itau.png" alt="Itaú">
+            <img loading="lazy" src="./assets/mercadopago.png" alt="Mercado Pago">
+            <img loading="lazy" src="./assets/midinero.png" alt="Mi Dinero">
+            <img loading="lazy" src="./assets/prex.png" alt="Prex">
           </div>
         </section>
 
-        <p class="disclaimer">
-          Promoción válida para usuarios nuevos. Sujeto a términos y condiciones.
-        </p>
+        <p class="disclaimer">Promoción válida para usuarios nuevos. Sujeto a términos y condiciones.</p>
       </div>
     
       
