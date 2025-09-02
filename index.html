@@ -424,16 +424,32 @@ main{ margin-bottom: 0 !important; }
 
 
 <style>
-/* === Payments inline under CTA (no white background, logos only) === */
-.payments-inline{ display:flex; justify-content:center; align-items:center; padding:6px 0 0; }
-.payments-inline .logos{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center; }
-.payments-inline .logos img{
-  height:36px; object-fit:contain;
-  background:transparent !important; padding:0 !important; border-radius:10px;
-  box-shadow:none !important;
+/* === Hero proportion & spacing fix (mobile) === */
+.hero { min-height: auto !important; aspect-ratio: 10 / 13 !important; }
+@media (min-width:768px){
+  .hero { aspect-ratio: 16 / 9 !important; }
+}
+/* Put headline safely inside the card at the bottom */
+.headline { bottom: 6px !important; }
+/* Compact spacing above payments so they're visible without scroll */
+.payments { padding-top: 8px !important; margin-top: 8px !important; }
+</style>
+
+
+<style>
+/* === Hard override para hero móvil + texto/pagos visibles === */
+@media (max-width: 480px){
+  .hero{
+    min-height: auto !important;
+    aspect-ratio: 10 / 13 !important;
+    margin-top: 4px !important;
+  }
+  .headline{ bottom: 8px !important; }
+  .cta{ padding-top: 10px !important; }
+  .payments{ margin-top: 10px !important; }
 }
 @media (min-width:768px){
-  .payments-inline .logos img{ height:38px; }
+  .hero{ aspect-ratio: 16 / 9 !important; min-height: auto !important; }
 }
 </style>
 
@@ -457,11 +473,7 @@ main{ margin-bottom: 0 !important; }
         <source src="./assets/RENDER.mp4" type="video/mp4">
       </video>
     </div>
-</div>
-          <div class="slide" style="background-image:url('./assets/hero2.jpg')" data-bg1="#3b1a00" data-bg2="#c94d00"></div>
-          <div class="slide" style="background-image:url('./assets/hero3.jpg')" data-bg1="#ff9900" data-bg2="#bb3a00"></div>
-        </div>
-        <div class="headline">
+</div><div class="headline">
           <span class="eyebrow">Una recarga, una historia nueva</span>
           <h1><span class="accent">BONUS 20%</span><br>en tu primera carga</h1>
           <p class="sub">Activá el beneficio escribiéndonos por WhatsApp.</p>
@@ -472,19 +484,22 @@ main{ margin-bottom: 0 !important; }
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="payments-inline" aria-label="Métodos de pago">
-  <div class="logos">
-    <img loading="lazy" src="./assets/santander.png" alt="Santander">
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="cta-note">Activá tu bono YA</div>
+
+        
+        <section class="payments">
+          <h2>Métodos de pago disponibles</h2>
+          <div class="logos">
+            <img loading="lazy" src="./assets/santander.png" alt="Santander">
             <img loading="lazy" src="./assets/scotiabank.png" alt="Scotiabank">
             <img loading="lazy" src="./assets/brou.png" alt="BROU">
             <img loading="lazy" src="./assets/itau.png" alt="Itaú">
             <img loading="lazy" src="./assets/mercadopago.png" alt="Mercado Pago">
             <img loading="lazy" src="./assets/midinero.png" alt="Mi Dinero">
             <img loading="lazy" src="./assets/prex.png" alt="Prex">
-  </div>
-</div>
+          </div>
+        </section>
 
-        
         <p class="disclaimer">Promoción válida para usuarios nuevos. Sujeto a términos y condiciones.</p>
       </div>
     
