@@ -422,6 +422,26 @@ main{ margin-bottom: 0 !important; }
 .dots:empty, .dots button:only-child{ display:none; }
 </style>
 
+
+<style>
+/* === HERO proportion fix (keep inside card, remove extra spaces) === */
+.hero{ min-height: auto !important; }                 /* quita altura forzada global */
+@media (max-width: 480px){
+  .hero{
+    aspect-ratio: 10 / 13 !important;                 /* proporción de tu tarjeta en móvil */
+    padding-top: calc(env(safe-area-inset-top) + 6px) !important;
+    margin-bottom: 8px !important;                    /* acerca CTA al hero */
+  }
+  .hero .slides, .hero .slide{ margin-top: 0 !important; }
+  .hero [class*="inner"], .hero [class*="wrap"]{
+    padding-top: 0 !important; margin-top: 0 !important;
+  }
+}
+@media (min-width: 768px){
+  .hero{ aspect-ratio: 16 / 9 !important; }           /* desktop panorámico */
+}
+</style>
+
 </head>
 <body>
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
