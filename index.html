@@ -462,6 +462,32 @@ body{ background:#140026 !important; }
 .payments { padding-top: 6px !important; margin-top: 4px !important; }
 </style>
 
+
+<style>
+/* === Aesthetic polish === */
+/* Stronger readability for hero title over video */
+.headline h1{
+  text-shadow: 0 4px 22px rgba(0,0,0,.45), 0 1px 0 rgba(0,0,0,.25);
+}
+/* Eyebrow a little lighter so it doesn't overpower */
+.eyebrow{
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.25));
+  letter-spacing:.2px;
+}
+/* Subtitle slightly finer to boost hierarchy */
+.headline .sub{ opacity:.95; font-weight:500; }
+/* CTA: a touch bigger & rounder */
+.btn{
+  padding: 16px 22px !important;
+  border-radius: 999px !important;
+  font-size: 18px !important;
+}
+/* Sticky bar button consistent scale */
+.bar-btn{ padding: 12px 18px !important; }
+/* Payments spacing tighten */
+.payments{ margin-top: 6px !important; }
+</style>
+
 </head>
 <body>
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
@@ -513,11 +539,7 @@ body{ background:#140026 !important; }
       
 
     </main>
-
-    <footer>©
-      <script>document.write(new Date().getFullYear())</script> Ganamos.net — Todos los derechos reservados
-    </footer>
-  </div>
+</div>
 
   <script>
     // ===== WhatsApp number & message (EDIT HERE) =====
