@@ -412,12 +412,14 @@ main{ margin-bottom: 0 !important; }
 
 
 <style>
-:root{ --sticky-h:64px; }
-.payments{ margin-top:14px !important; margin-bottom:8px !important; }
-/* Spacer to guarantee nothing quede tapado por la sticky */
-.after-payments-spacer{
-  height: calc(var(--sticky-h) + env(safe-area-inset-bottom) + 14px);
-}
+:root{ --sticky-h: 56px; }
+/* Minimiza el aire global: solo safe-area + 6px */
+.wrap{ padding-bottom: calc(env(safe-area-inset-bottom) + 6px) !important; }
+/* Transición para ocultar la sticky cuando los pagos estén a la vista */
+#stickyBar{ transition: transform .28s ease; will-change: transform; }
+.hide-sticky #stickyBar{ transform: translateY(110%); }
+/* Ajuste suave entre CTA y pagos */
+.payments{ margin-top: 10px !important; margin-bottom: 8px !important; }
 </style>
 
 </head>
@@ -464,7 +466,6 @@ main{ margin-bottom: 0 !important; }
             <img loading="lazy" src="./assets/prex.png" alt="Prex">
           </div>
         </section>
-<div class="after-payments-spacer" aria-hidden="true"></div>
 
         <p class="disclaimer">Promoción válida para usuarios nuevos. Sujeto a términos y condiciones.</p>
       </div>
@@ -701,15 +702,19 @@ main{ margin-bottom: 0 !important; }
 
 <script>
 (function(){
-  function setStickyH(){
-    var bar=document.getElementById('stickyBar');
-    if(!bar) return;
-    var h=bar.offsetHeight||64;
-    document.documentElement.style.setProperty('--sticky-h', h+'px');
-  }
-  window.addEventListener('load',setStickyH);
-  window.addEventListener('resize',setStickyH);
-  setTimeout(setStickyH,400);
+  var payments = document.querySelector('.payments');
+  var sticky = document.getElementById('stickyBar');
+  if(!payments || !sticky || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && e.intersectionRatio >= 0.35){
+        document.body.classList.add('hide-sticky');
+      }else{
+        document.body.classList.remove('hide-sticky');
+      }
+    });
+  }, {threshold:[0,0.35,1]});
+  io.observe(payments);
 })();
 </script>
 
