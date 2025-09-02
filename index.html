@@ -453,6 +453,15 @@ main{ margin-bottom: 0 !important; }
 }
 </style>
 
+
+<style>
+/* === Fix: fondo uniforme (evita franja morada al final en móvil) === */
+body{ background:#140026 !important; }
+/* Ajustes suaves para que los pagos queden bien pegados al botón */
+.cta { gap: 10px !important; }
+.payments { padding-top: 6px !important; margin-top: 4px !important; }
+</style>
+
 </head>
 <body>
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
@@ -484,10 +493,8 @@ main{ margin-bottom: 0 !important; }
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="cta-note">Activá tu bono YA</div>
-
-        
-        <section class="payments">
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
+<section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
             <img loading="lazy" src="./assets/santander.png" alt="Santander">
