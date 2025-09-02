@@ -393,23 +393,6 @@
   <!-- End Meta Pixel Code -->
 
   <link rel="preload" as="image" href="./assets/hero.jpg">
-
-<style>
-.hero{ position:relative; overflow:hidden; isolation:isolate; min-height:58dvh; touch-action: pan-y; }
-.hero::after{ content:""; position:absolute; inset:0; z-index:0; background: linear-gradient(180deg, rgba(27,0,48,0) 35%, rgba(27,0,48,.55) 65%, rgba(27,0,48,.85) 100%); }
-.slides{ position:absolute; inset:0; display:flex; transition:transform .5s ease; z-index:-1; }
-.slide{ min-width:100%; background-size:cover; background-position:center; background-repeat:no-repeat; position:relative; overflow:hidden; }
-.dots{ position:absolute; left:0; right:0; bottom:10px; display:flex; justify-content:center; gap:6px; z-index:2; }
-.dots button{ width:10px; height:10px; border-radius:50%; border:0; background:rgba(255,255,255,.45); }
-.dots button.active{ background:#fff; transform:scale(1.08); }
-@media (min-width:768px){ .hero{ aspect-ratio:16/9; } }
-</style>
-
-
-<style>
-main{ margin-bottom: 0 !important; }
-</style>
-
 </head>
 <body>
   <a class="sticky-wa" id="floatingWA" aria-label="WhatsApp" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" width="40" height="40"></a>
@@ -439,10 +422,9 @@ main{ margin-bottom: 0 !important; }
 
       <div class="cta">
         
-        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a><div class="cta-note">Activá tu bono YA</div>
+        <a class="btn" id="ctaWA" href="#" target="_blank" rel="noopener"><img src="./assets/whatsapp.png" alt="WhatsApp" class="wa-icon"><span>Escribinos por WhatsApp</span></a>
 
-        
-        <section class="payments">
+<section class="payments">
           <h2>Métodos de pago disponibles</h2>
           <div class="logos">
             <img loading="lazy" src="./assets/santander.png" alt="Santander">
@@ -453,7 +435,10 @@ main{ margin-bottom: 0 !important; }
             <img loading="lazy" src="./assets/midinero.png" alt="Mi Dinero">
             <img loading="lazy" src="./assets/prex.png" alt="Prex">
           </div>
-        </section>
+        </section><div class="cta-note">Activá tu bono YA</div>
+
+        
+        
 
         <p class="disclaimer">Promoción válida para usuarios nuevos. Sujeto a términos y condiciones.</p>
       </div>
@@ -603,8 +588,8 @@ main{ margin-bottom: 0 !important; }
         });
         if (typeof fbq === 'function'){
           fbq('track','Contact',{event_id:eventId, content_name:'WhatsApp Click', destination:'whatsapp', product:'cayo_uy', value:0, currency:'UYU', ...params});
-          fbq('trackCustom','WhatsAppClick',{ event_id:eventId, product:'cayo_uy', ...params, currency:'UYU', value: 0 });
-          fbq('track','Lead',{ event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', ...params, currency:'UYU', value: 0 });
+          fbq('trackCustom','WhatsAppClick', {event_id:eventId, product:'cayo_uy', ...params});
+          fbq('track','Lead',{event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', ...params});
         }
       }catch(_){}
     }
@@ -653,39 +638,6 @@ main{ margin-bottom: 0 !important; }
       hero.addEventListener('touchend', onUp, {passive:true});
     })();
   </script>
-
-
-<script>
-(function(){
-  try{
-    var WHATSAPP_NUMBER = (typeof window.WHATSAPP_NUMBER!=='undefined') ? window.WHATSAPP_NUMBER : "59899259912";
-    var PREFILL_TEXT = (typeof window.PREFILL_TEXT!=='undefined') ? window.PREFILL_TEXT : "Hola, me gustaria registrar mi usuario";
-    function createWaLink(){
-      var base = "https://wa.me/" + WHATSAPP_NUMBER;
-      var url = new URL(base);
-      url.searchParams.set("text", PREFILL_TEXT);
-      var qs = new URLSearchParams(location.search);
-      ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(function(k){
-        var v = qs.get(k);
-        if(v) url.searchParams.set(k, v);
-      });
-      return url.toString();
-    }
-    function applyWaLink(){
-      var link = createWaLink();
-      ["ctaWA","floatingWA","barWA"].forEach(function(id){
-        var el = document.getElementById(id);
-        if(el) el.href = link;
-      });
-    }
-    if(document.readyState === "loading"){
-      document.addEventListener("DOMContentLoaded", applyWaLink);
-    } else {
-      applyWaLink();
-    }
-  }catch(e){}
-})();
-</script>
 
 </body>
 </html>
