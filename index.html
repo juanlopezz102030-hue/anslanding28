@@ -16,7 +16,7 @@
     :root{
       --bg-1:#2b0050;
       --bg-2:#6200a6;
-      --accent:#ffb400;
+      --accent:#7DE2FF;
       --white:#ffffff;
       --muted:#d9c7ff;
       --btn:#25D366; /* WhatsApp green */
@@ -79,7 +79,7 @@
     .eyebrow{
       display:inline-block;
       background:var(--accent);
-      color:#3d2300;
+      color: #001b26;
       font-weight:700;
       padding:6px 10px;
       border-radius:999px;
@@ -220,21 +220,21 @@
 
     
     /* Alternate theme for slide 2 */
-    .alt-theme .headline h1 .accent{color:#FFD74D}
+    .alt-theme .headline h1 .accent{color:var(--accent)}
     .alt-theme .headline h1{color:#fff}
     .alt-theme .headline .sub,
-    .alt-theme .eyebrow{color:#fceabb}
+    .alt-theme .eyebrow{color:#D5F6FF}
 
     
     /* Theme override for slide 2 (better contrast on warm background) */
-    .alt-theme .headline h1 .accent{ color:#FFD74D; }
+    .alt-theme .headline h1 .accent{ color:var(--accent); }
     .alt-theme .headline h1{ color:#FFFFFF; }
-    .alt-theme .headline .sub{ color:#FFF4C9; }
-    .alt-theme .eyebrow{ background:#FFD74D; color:#3d2300; }
+    .alt-theme .headline .sub{ color:#E7FAFF; }
+    .alt-theme .eyebrow{ background:var(--accent); color: #001b26; }
 
     
     /* Slide 3 readability tweaks */
-    .slide3-theme .headline h1 .accent{ color:#FFE17A; }
+    .slide3-theme .headline h1 .accent{ color:var(--accent); }
     .slide3-theme .headline h1{ color:#FFFFFF; }
     .slide3-theme .headline .sub{ color:#FFF1C0; }
 
