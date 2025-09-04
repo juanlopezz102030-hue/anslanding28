@@ -685,38 +685,48 @@ body{ background:#140026 !important; }
   </script>
 
 
-<!-- WhatsApp click tracking for Meta Pixel -->
-  <script>
-  (function(){
-    function onWaClick(e){
-      var eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(16).slice(2);
-      try{
-        var a=e.currentTarget;
-        var url=new URL(a.href);
-        var params={};
-        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
-          if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
-        });
-        if (typeof fbq === 'function'){}
-      
-        if (typeof fbq === 'function'){
-          fbq('track','Lead',{ event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', value:0, currency:'UYU', ...params });
-          fbq('trackCustom','WhatsAppClick',{ event_id:eventId, product:'cayo_uy', ...params, currency:'UYU', value:0 });
-        }
-          }
-      catch(_){}
-    }
-    function bind(){
-    function bind(){
-      var sel='a[href^="https://wa.me/"],a[href^="https://api.whatsapp.com/send"]';
-      document.querySelectorAll(sel).forEach(function(a){
-        a.removeEventListener('click', onWaClick);
-        a.addEventListener('click', onWaClick);
+<!-- WhatsApp click tracking para Meta Pixel -->
+<script>
+(function(){
+  function onWaClick(e){
+    var eventId = (window.crypto && crypto.randomUUID) 
+      ? crypto.randomUUID() 
+      : String(Date.now())+'-'+Math.random().toString(16).slice(2);
+
+    try{
+      var a = e.currentTarget;
+      var url = new URL(a.href);
+      var params = {};
+
+      // Captura de UTMs si existen
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
+        if(url.searchParams.get(k)) params[k] = url.searchParams.get(k);
       });
-    }
-    document.addEventListener('DOMContentLoaded', bind);
-  })();
-  </script>
+
+      // Envío del evento único WhatsAppClick
+      if (typeof fbq === 'function'){
+        fbq('trackCustom','WhatsAppClick',{
+          event_id: eventId,
+          destination: 'whatsapp',
+          product: 'cayo_uy',
+          currency: 'UYU',
+          value: 0,
+          ...params
+        });
+      }
+    } catch(_){}
+  }
+
+  function bind(){
+    var sel='a[href^="https://wa.me/"],a[href^="https://api.whatsapp.com/send"]';
+    document.querySelectorAll(sel).forEach(function(a){
+      a.removeEventListener('click', onWaClick);
+      a.addEventListener('click', onWaClick);
+    });
+  }
+  document.addEventListener('DOMContentLoaded', bind);
+})();
+</script>
 
 
   <script>
