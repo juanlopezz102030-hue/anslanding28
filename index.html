@@ -675,13 +675,24 @@ body{ background:#140026 !important; }
         ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
           if(url.searchParams.get(k)) params[k]=url.searchParams.get(k);
         });
+        if (typeof fbq === 'function'){}
+      
         if (typeof fbq === 'function'){
-          fbq('track','Contact',{event_id:eventId, content_name:'WhatsApp Click', destination:'whatsapp', product:'cayo_uy', value:0, currency:'UYU', ...params});
-          fbq('trackCustom','WhatsAppClick',{ event_id:eventId, product:'cayo_uy', ...params, currency:'UYU', value: 0 });
-          fbq('track','Lead',{ event_id:eventId, content_name:'Registro WhatsApp', destination:'whatsapp', product:'cayo_uy', ...params, currency:'UYU', value: 0 });
+          fbq('trackCustom','WhatsAppClick', {
+            event_id: eventId,
+            content_name: 'Registro WhatsApp',
+            conversion: 'lead',
+            destination: 'whatsapp',
+            product: 'cayo_uy',
+            value: 0,
+            currency: 'UYU',
+            ...params
+          });
         }
-      }catch(_){}
+          }
+      catch(_){}
     }
+    function bind(){
     function bind(){
       var sel='a[href^="https://wa.me/"],a[href^="https://api.whatsapp.com/send"]';
       document.querySelectorAll(sel).forEach(function(a){
