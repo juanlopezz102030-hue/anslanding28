@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Casino Preview • Holograma</title>
-  <meta name="description" content="Previsualización real estilo holograma con capturas. WhatsApp CTA." />
+  <title>Casino Preview • Aura exterior + Slideshow (video Bet30)</title>
   <meta name="theme-color" content="#0b0f1a" />
   <style>
     *,*::before,*::after{box-sizing:border-box}
@@ -13,136 +12,126 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
       color:#EAEAF2;
       background:
-        radial-gradient(1200px 600px at 50% -10%, rgba(255,215,0,.20), transparent 70%),
-        radial-gradient(1000px 500px at 120% 100%, rgba(0,255,255,.12), transparent 70%),
+        radial-gradient(1200px 600px at 50% -10%, rgba(255,215,0,.18), transparent 70%),
+        radial-gradient(1000px 500px at 120% 100%, rgba(0,255,255,.10), transparent 70%),
         linear-gradient(180deg, #0b0f1a, #06070d 30%, #0b0f1a);
       overflow-x:hidden;
     }
-    .twinkles::before,.twinkles::after{content:"";position:fixed;inset:0;pointer-events:none;background-image:
-        radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.25), transparent 50%),
-        radial-gradient(1.5px 1.5px at 70% 60%, rgba(0,255,255,.30), transparent 50%),
-        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,215,0,.30), transparent 50%);
-      animation:drift 16s linear infinite;opacity:.4}
-    .twinkles::after{animation-duration:24s;opacity:.25}
-    @keyframes drift{0%{transform:translateY(0)}100%{transform:translateY(-20px)}}
+    header{position:sticky;top:env(safe-area-inset-top);z-index:5;padding:clamp(14px,3vw,22px) 16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,0));backdrop-filter:blur(6px)}
+    .badge{font-weight:800;letter-spacing:.3px;background:linear-gradient(90deg,#ffd700,#ff9f1a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,215,0,.25)}
+    .title{font-size:clamp(20px,5vw,28px);font-weight:900;line-height:1;display:flex;flex-direction:column;align-items:center}
+    .title small{margin-top:6px;font-size:clamp(11px,3vw,13px);opacity:.85}
 
-    header{position:sticky;top:env(safe-area-inset-top);z-index:5;padding:clamp(14px,3vw,22px) 16px;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,0));backdrop-filter:blur(6px)}
-    .badge{font-weight:700;letter-spacing:.3px;background:linear-gradient(90deg,#ffd700,#ff9f1a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,215,0,.25)}
-    .title{font-size:clamp(20px,5vw,28px);font-weight:800;line-height:1;display:flex;flex-direction:column;align-items:center}
-    .title small{margin-top:6px;font-size:clamp(11px,3vw,13px);opacity:.8}
-
-    .row{display:flex;gap:14px;padding:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+    .row{display:flex;gap:18px;padding:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch; scroll-behavior: smooth;}
     .row::-webkit-scrollbar{height:8px}
     .row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#00f0ff,#ffd700);border-radius:999px}
 
+    .wrap{position:relative;scroll-snap-align:center; flex:0 0 auto;}
+    .aura{
+      position:absolute; inset:0; border-radius:24px;
+      transform: scale(1.06);
+      z-index:0; pointer-events:none;
+      background:
+        radial-gradient(120% 80% at 50% 0%, rgba(0,255,255,.22), transparent 65%),
+        radial-gradient(130% 90% at 0% 100%, rgba(255,215,0,.20), transparent 60%),
+        radial-gradient(130% 90% at 100% 100%, rgba(255,0,80,.16), transparent 60%);
+      filter: blur(20px);
+      animation: shimmer 6.5s ease-in-out infinite alternate;
+      opacity:.9;
+    }
+    @keyframes shimmer{
+      0% { transform: scale(1.04) translateY(0) }
+      100% { transform: scale(1.08) translateY(-3px) }
+    }
+
     .card{
-      position:relative;
+      --r: 22px;
       width:72vw;max-width:360px;min-width:260px;aspect-ratio:9/16;
-      border-radius:20px;overflow:hidden;scroll-snap-align:center;
+      border-radius:var(--r);
+      overflow:hidden;
       transform:perspective(900px) rotateY(-8deg) rotateX(2deg);
       transition:transform .3s ease, box-shadow .3s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,.55), 0 0 30px rgba(0,255,255,.15);
-      background: #0a0d14;
-      isolation:isolate;
+      box-shadow: 0 10px 30px rgba(0,0,0,.55);
+      background:#060a12;
+      position:relative; z-index:1;
     }
-    .card:nth-child(2){transform:perspective(900px) rotateY(0deg) rotateX(0deg)}
-    .card:nth-child(3){transform:perspective(900px) rotateY(8deg) rotateX(2deg)}
-    .card:hover{transform:perspective(900px) rotateY(0deg) translateY(-4px) scale(1.01)}
+    .wrap:nth-child(2) .card{transform:perspective(900px) rotateY(0) rotateX(0)}
+    .wrap:nth-child(3) .card{transform:perspective(900px) rotateY(8deg) rotateX(2deg)}
+    .card:hover{transform:perspective(900px) rotateY(0) translateY(-4px) scale(1.01)}
 
-    /* Neon rim + pulso */
-    .card::before{
-      content:""; position:absolute; inset:-2px; border-radius:22px;
-      background: conic-gradient(from 180deg at 50% 50%,
-        rgba(0,255,255,.50), rgba(255,215,0,.55), rgba(255,0,80,.45), rgba(0,255,255,.50));
-      filter: blur(14px); opacity:.55; z-index:-1;
-      animation: pulse 2.6s ease-in-out infinite;
-    }
-    @keyframes pulse{0%,100%{opacity:.35; transform:scale(.995)}50%{opacity:.7; transform:scale(1.01)}}
+    .viewport{position:absolute; inset:0; border-radius:inherit; overflow:hidden; z-index:1;}
+    .viewport img, .viewport video{width:100%; height:100%; object-fit:cover; display:block;}
+    .viewport video{background:#000;}
 
-    /* Orbitas de luz alrededor (halo externo) */
-    .orb, .orb2{
-      pointer-events:none; position:absolute; inset:-30px; z-index:-2; border-radius:28px;
-      background: radial-gradient(40% 60% at 10% 20%, rgba(0,255,255,.20), transparent 60%),
-                  radial-gradient(50% 40% at 90% 10%, rgba(255,215,0,.18), transparent 60%),
-                  radial-gradient(80% 80% at 50% 100%, rgba(255,0,80,.12), transparent 70%);
-      filter: blur(22px);
-      animation: floaty 7s ease-in-out infinite;
-    }
-    .orb2{ animation-duration: 11s; opacity:.75; }
-    @keyframes floaty{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-6px) translateX(3px)}100%{transform:translateY(0) translateX(0)}}
-
-    .viewport{position:absolute;inset:0;border-radius:16px;overflow:hidden;background:
-      radial-gradient(120% 60% at 50% -30%, rgba(255,0,80,.18), transparent 60%),
-      linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.2));
-    }
-    .viewport img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.02)}
-    .scanline,.glare{position:absolute;inset:0;pointer-events:none;z-index:2}
-    .scanline{background:repeating-linear-gradient(to bottom, rgba(255,255,255,.06), rgba(255,255,255,.06) 1px, transparent 1px, transparent 3px);mix-blend-mode:screen;animation:scan 5s linear infinite;opacity:.35}
+    .scanline, .glare{position:absolute; inset:0; pointer-events:none; z-index:2}
+    .scanline{background:repeating-linear-gradient(to bottom, rgba(255,255,255,.05), rgba(255,255,255,.05) 1px, transparent 1px, transparent 3px); mix-blend-mode:screen; animation:scan 5s linear infinite; opacity:.25}
     @keyframes scan{0%{background-position-y:0}100%{background-position-y:1000px}}
-    .glare{background:
-      radial-gradient(600px 160px at -10% -20%, rgba(0,255,255,.28), transparent 60%),
-      radial-gradient(400px 120px at 120% 0%, rgba(255,215,0,.18), transparent 60%);
-    }
-    .label{position:absolute;bottom:10px;left:10px;z-index:3;font-size:12px;font-weight:700;letter-spacing:.3px;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.25));border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
+    .glare{background: radial-gradient(500px 140px at -10% -20%, rgba(0,255,255,.18), transparent 60%), radial-gradient(380px 110px at 120% 0%, rgba(255,215,0,.14), transparent 60%);}
 
-    .hint{font-size:12px;text-align:center;opacity:.8;margin:8px 16px 80px}
+    .label{position:absolute;bottom:10px;left:10px;z-index:3;font-size:12px;font-weight:800;letter-spacing:.3px;padding:6px 10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.25));border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
 
-    /* WhatsApp CTA fijo */
+    .hint{font-size:12px;text-align:center;opacity:.85;margin:8px 16px 80px}
+
     .wa-cta{
       position: fixed; left: 50%; transform: translateX(-50%);
       bottom: calc(env(safe-area-inset-bottom) + 14px);
       display:flex; align-items:center; gap:10px;
       padding: 12px 16px; border-radius: 999px;
       background: linear-gradient(180deg, #25D366, #1ebe57);
-      color: #042813; font-weight: 800; text-decoration:none;
+      color: #042813; font-weight: 900; text-decoration:none;
       box-shadow: 0 14px 34px rgba(37,211,102,.35), 0 0 0 1px rgba(0,0,0,.25) inset;
       z-index: 50;
     }
     .wa-cta:active{transform:translateX(-50%) translateY(1px)}
     .wa-cta svg{width:20px;height:20px;flex:0 0 20px;}
-
-    /* Hide footer CTA/linking from previous version (removed links) */
   </style>
 </head>
-<body class="twinkles">
+<body>
   <header>
     <div class="title">
       <span class="badge">VISTA HOLOGRAMA</span>
-      <small>Capturas reales • Desliza</small>
+      <small>Aura exterior + slideshow + video Bet30</small>
     </div>
   </header>
 
   <section class="row" id="row" aria-label="Previsualizaciones">
-    <!-- Bet30 -->
-    <article class="card">
-      <div class="orb"></div><div class="orb2"></div>
-      <div class="viewport"><img src="bet30-preview.jpg" alt="Vista previa Bet30" loading="lazy"></div>
-      <div class="scanline"></div><div class="glare"></div>
-      <div class="label">Bet30</div>
-    </article>
+    <!-- Bet30 con VIDEO -->
+    <div class="wrap" data-name="Bet30">
+      <div class="aura" aria-hidden="true"></div>
+      <article class="card">
+        <div class="viewport">
+          <!-- Cambiá el src a tu archivo real si usás otro nombre -->
+          <video id="bet30Video" src="bet30-preview.mp4" muted playsinline webkit-playsinline autoplay loop preload="metadata" poster="bet30-preview.jpg"></video>
+        </div>
+        <div class="scanline"></div><div class="glare"></div>
+        <div class="label">Bet30</div>
+      </article>
+    </div>
 
     <!-- Ganamos (centro) -->
-    <article class="card" id="center-card">
-      <div class="orb"></div><div class="orb2"></div>
-      <div class="viewport"><img src="ganamos-preview.jpg" alt="Vista previa Ganamos" loading="lazy"></div>
-      <div class="scanline"></div><div class="glare"></div>
-      <div class="label">Ganamos</div>
-    </article>
+    <div class="wrap" id="center-wrap" data-name="Ganamos">
+      <div class="aura" aria-hidden="true"></div>
+      <article class="card" id="center-card">
+        <div class="viewport"><img src="ganamos-preview.jpg" alt="Vista previa Ganamos" loading="lazy"></div>
+        <div class="scanline"></div><div class="glare"></div>
+        <div class="label">Ganamos</div>
+      </article>
+    </div>
 
     <!-- Rhinoplay -->
-    <article class="card">
-      <div class="orb"></div><div class="orb2"></div>
-      <div class="viewport"><img src="rhinoplay-preview.jpg" alt="Vista previa Rhinoplay" loading="lazy"></div>
-      <div class="scanline"></div><div class="glare"></div>
-      <div class="label">Rhinoplay</div>
-    </article>
+    <div class="wrap" data-name="Rhinoplay">
+      <div class="aura" aria-hidden="true"></div>
+      <article class="card">
+        <div class="viewport"><img src="rhinoplay-preview.jpg" alt="Vista previa Rhinoplay" loading="lazy"></div>
+        <div class="scanline"></div><div class="glare"></div>
+        <div class="label">Rhinoplay</div>
+      </article>
+    </div>
   </section>
 
-  <p class="hint">Arrastra para explorar. Nota: Se quitaron enlaces a los sitios; usa el botón de WhatsApp para contacto.</p>
+  <p class="hint">Sin enlaces a los sitios. Usa el botón de WhatsApp para contacto.</p>
 
-  <!-- WhatsApp CTA (sin enlaces a sitios) -->
   <a class="wa-cta" id="waBtn" href="#">
-    <!-- WhatsApp SVG (marca reconocible) -->
     <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" role="img">
       <path fill="#E9F9EE" d="M19.5 17.7c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.5.1-.2.3-.6.9-.7 1-.1.1-.2.1-.5 0-.3-.1-1.1-.4-2.1-1.2-.8-.6-1.4-1.4-1.6-1.7-.2-.3 0-.4.1-.5.1-.1.3-.3.4-.4.1-.1.1-.2.2-.4.1-.1.1-.3 0-.4 0-.1-.5-1.3-.7-1.8-.2-.5-.4-.4-.5-.4h-.4c-.1 0-.4.1-.6.3-.2.2-.8.7-.8 1.7s.8 1.9.9 2 .1.2.3.5c.2.3 1.7 2.6 4.1 3.6 2.4 1 .2.3 3 .4 1 .2 1.9-.1 2.6-.8.6-.7.7-1.5.5-1.7-.2-.1-.4-.2-.7-.3z"/>
       <path fill="#25D366" d="M26.8 5.2A12.7 12.7 0 0 0 16.1 1C8.9 1 3 6.8 3 14c0 2.3.6 4.6 1.8 6.6L3 31l10.7-1.8a12.9 12.9 0 0 0 6.2 1.6c7.2 0 13.1-5.9 13.1-13.1 0-3.5-1.4-6.7-3.9-9.3zm-10.7 22c-2 0-3.9-.5-5.6-1.5l-.4-.2-6.4 1.1 1.1-6.2-.3-.4a11.3 11.3 0 0 1-1.7-6c0-6.2 5-11.3 11.3-11.3 3 0 5.8 1.2 7.9 3.3 2.1 2.1 3.3 4.9 3.3 7.9 0 6.3-5.1 11.3-11.2 11.3z"/>
@@ -151,28 +140,69 @@
   </a>
 
   <script>
-    // Centrar la tarjeta del medio al iniciar
     const row = document.getElementById('row');
+    const wraps = Array.from(document.querySelectorAll('.wrap'));
     const centerCard = document.getElementById('center-card');
-    function centerOnLoad(){
-      if(!row || !centerCard) return;
-      const rowRect = row.getBoundingClientRect();
-      const cardRect = centerCard.getBoundingClientRect();
-      // Scroll so that center-card esté al centro del viewport
-      const current = row.scrollLeft + (cardRect.left - rowRect.left);
-      const target = current - (rowRect.width/2 - cardRect.width/2);
-      row.scrollTo({ left: target, behavior: 'instant' });
-    }
-    // Run after layout
-    window.addEventListener('load', () => setTimeout(centerOnLoad, 50));
+    let idx = 1; // centro
+    let timer = null;
+    const INTERVAL = 3500; // ms
+    let paused = false;
+    let resumeHandle = null;
 
-    // Botón de WhatsApp (sin enlazar a sitios)
+    function leftForIndex(i){
+      const rowRect = row.getBoundingClientRect();
+      const wrapRect = wraps[i].getBoundingClientRect();
+      const current = row.scrollLeft + (wrapRect.left - rowRect.left);
+      return current - (rowRect.width/2 - wrapRect.width/2);
+    }
+
+    function goToIndex(i){
+      if(!wraps[i]) return;
+      row.scrollTo({ left: leftForIndex(i), behavior: 'smooth' });
+    }
+
+    function start(){
+      stop();
+      timer = setInterval(()=>{
+        if (paused) return;
+        idx = (idx + 1) % wraps.length;
+        goToIndex(idx);
+      }, INTERVAL);
+    }
+
+    function stop(){ if (timer){ clearInterval(timer); timer = null; } }
+
+    function pauseAndResume(){
+      paused = true;
+      if (resumeHandle){ clearTimeout(resumeHandle); }
+      resumeHandle = setTimeout(()=>{ paused = false; }, 4000);
+    }
+
+    function centerOnLoad(){
+      idx = 1;
+      goToIndex(idx);
+      start();
+      // iOS/video inline fix: ensure play attempt after user gesture fallback
+      const v = document.getElementById('bet30Video');
+      if (v){ v.muted = true; v.play().catch(()=>{}); }
+    }
+
+    window.addEventListener('load', () => setTimeout(centerOnLoad, 100));
+    window.addEventListener('resize', () => setTimeout(()=>goToIndex(idx), 60));
+
+    ['pointerdown','wheel','touchstart','keydown'].forEach(ev=>{
+      row.addEventListener(ev, pauseAndResume, {passive:true});
+    });
+
     document.getElementById('waBtn').addEventListener('click', (e)=>{
       e.preventDefault();
-      // Reemplaza con tu link de WhatsApp real (wa.me) si lo deseas:
-      // window.location.href = 'https://wa.me/598XXXXXXXX?text=Hola%20quiero%20informaci%C3%B3n';
-      alert('Aquí irá tu enlace de WhatsApp. Pásame el número y mensaje y lo dejo integrado.');
+      alert('Pásame el número y texto y armo el enlace wa.me en el botón.');
     }, {passive:false});
+
+    // Pausar cuando la pestaña está oculta
+    document.addEventListener('visibilitychange', () => {
+      paused = document.hidden || paused;
+    });
   </script>
 </body>
 </html>
