@@ -6,22 +6,18 @@
   <title>Landing Casino Slideshow</title>
   <style>
     /*
-      Mobile‑first styles for a horizontal slideshow of three cards.  Each card
-      maintains a 9:16 aspect ratio and includes a subtle aura around its
-      perimeter without intruding on the image or video content.  The cards
-      have matching dimensions so that they appear uniform, and they sit
-      inside a flex container that snaps each card into view when scrolling.
-
-      The autoplay script below scrolls between cards every 3.5 seconds but
-      pauses if the user interacts with the carousel.  After a short
-      inactivity period, autoplay resumes automatically.
+      Esta versión conserva el carrusel holográfico con tres tarjetas de
+      proporción 9:16 y aura exterior.  Las tarjetas se han reducido de
+      tamaño (55 vh de alto) para dejar más espacio en pantalla, pero no
+      incorpora las tarjetas de información añadidas en la versión previa.  Se
+      mantiene el botón flotante de WhatsApp.
     */
     :root {
-      /* Control the card dimensions; the width is a percentage of the
-         viewport width and height derives from the 9/16 aspect ratio.  If
-         necessary you can tweak this variable to shrink or enlarge the
-         cards. */
-      --card-width: 80vw;
+      /* Dimensiones de las tarjetas: altura fija en relación al viewport,
+         y ancho derivado de la relación 9:16 (ancho:alto = 9:16).  Ajuste
+         --card-height para modificar el tamaño de las tarjetas. */
+      --card-height: 55vh;
+      --card-width: calc(var(--card-height) * 9 / 16);
       --card-radius: 20px;
       --aura-size: 30px;
     }
@@ -36,29 +32,27 @@
       color: #fff;
     }
 
-    /* Container holding the cards */
+    /* Contenedor del carrusel */
     #carousel {
       display: flex;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      padding: 40px 0; /* provide vertical breathing room */
+      padding: 40px 0;
     }
 
-    /* Each card wrapper uses scroll-snap-align to center on the viewport */
+    /* Envoltura de cada tarjeta */
     .card-wrapper {
       position: relative;
       flex: 0 0 auto;
       scroll-snap-align: center;
       width: var(--card-width);
-      /* Height calculated from 9:16 (width/height) ratio.  Multiply width by
-         (16 / 9) to obtain height. */
-      height: calc(var(--card-width) * 16 / 9);
+      height: var(--card-height);
       margin: 0 10px;
     }
 
-    /* The aura sits behind the card and glows outward */
+    /* Aura que rodea la tarjeta */
     .aura {
       position: absolute;
       top: calc(-1 * var(--aura-size) / 2);
@@ -80,7 +74,7 @@
       100% { opacity: 0.7; transform: scale(1); }
     }
 
-    /* The card containing a video or image */
+    /* Tarjeta que contiene el video o imagen */
     .card {
       position: relative;
       width: 100%;
@@ -88,9 +82,8 @@
       border-radius: var(--card-radius);
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-      z-index: 1; /* sits above aura */
+      z-index: 1;
     }
-
     .card video,
     .card img {
       width: 100%;
@@ -99,7 +92,7 @@
       display: block;
     }
 
-    /* WhatsApp button fixed at bottom right */
+    /* Botón de WhatsApp fijo */
     .whatsapp-btn {
       position: fixed;
       bottom: 20px;
@@ -116,7 +109,6 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       z-index: 100;
     }
-
     .whatsapp-btn svg {
       width: 20px;
       height: 20px;
@@ -126,7 +118,7 @@
 </head>
 <body>
   <div id="carousel">
-    <!-- Card 1: Bet30 (mp4) -->
+    <!-- Tarjeta 1: Bet30 -->
     <div class="card-wrapper">
       <div class="aura"></div>
       <div class="card">
@@ -136,7 +128,7 @@
         </video>
       </div>
     </div>
-    <!-- Card 2: Ganamos (mp4) -->
+    <!-- Tarjeta 2: Ganamos -->
     <div class="card-wrapper">
       <div class="aura"></div>
       <div class="card">
@@ -146,7 +138,7 @@
         </video>
       </div>
     </div>
-    <!-- Card 3: Rhinoplay (mp4) -->
+    <!-- Tarjeta 3: Rhinoplay -->
     <div class="card-wrapper">
       <div class="aura"></div>
       <div class="card">
@@ -158,9 +150,8 @@
     </div>
   </div>
 
-  <!-- WhatsApp button: replace the href with your wa.me link if desired -->
+  <!-- Botón de WhatsApp -->
   <a class="whatsapp-btn" href="#">
-    <!-- WhatsApp logo (SVG path) -->
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M12.005 2.003c5.519 0 10 4.477 10 9.996 0 5.522-4.481 10-10 10-1.693 0-3.32-.427-4.754-1.236L2 22l1.297-5.242C2.431 15.339 2 13.722 2 12c0-5.519 4.486-9.997 10.005-9.997zM7.185 15.478l.193.116c1.582.943 2.88 1.459 3.894 1.548.563.05 1.093-.165 1.517-.5l.247-.208c.193-.18.442-.419.692-.455.264-.038.53.11.846.193.316.084 2.02.949 2.359 1.088.339.137.563.208.81.083.247-.124 1.176-.77 1.338-1.515.163-.745.163-1.371.116-1.457-.047-.086-.074-.125-.166-.208l-.4-.402c-.204-.208-.475-.525-.632-.788-.158-.264-.316-.344-.527-.515-.211-.172-.211-.344-.316-.56-.105-.215-.474-.596-.685-.838-.211-.243-.422-.243-.632-.243h-.264c-.211 0-.316.01-.474.217-.159.206-.653.786-.653 1.616 0 .83.671 1.63.764 1.744.094.114.987 1.511 2.363 2.133 1.376.623 1.376.414 1.625.396.248-.019.792-.275 1.014-.594.221-.319.398-.59.593-.939.194-.35.194-.635.292-.777.099-.142.486-.355.74-.492.253-.137.474-.217.474-.381 0-.165-.07-.29-.106-.4-.036-.11-.276-.433-.516-.645-.238-.211-.947-.594-1.28-.738-.334-.145-.555-.165-.792-.165-.237 0-.581.011-.944.331-.363.32-1.256 1.203-1.256 2.752 0 1.548 1.537 3.177 1.756 3.395.219.218 3.042 1.84 3.62 2.05.579.21 1.091.189 1.549.112.458-.077 1.567-.694 1.791-1.37.223-.676.223-1.243.126-1.378-.097-.134-.143-.201-.395-.422-.253-.221-.711-.75-.988-1.074-.276-.323-.553-.489-.678-.663-.126-.174-.158-.242-.348-.674-.19-.432-.29-.558-.47-.628-.18-.07-.463-.07-.7-.07-.238 0-.455.063-.692.324-.238.261-.713.926-.713 1.735 0 .809.685 1.61.79 1.732.105.122.99 1.529 2.367 2.146 1.377.618 2.47.807 3.098.827.63.02 1.071-.167 1.523-.513.451-.346.496-.692.599-1.024.102-.333.251-.614.388-.816.137-.202.147-.289.252-.452.106-.163.158-.26.135-.488-.022-.227-.383-1.163-.666-1.676-.284-.513-1.141-.768-1.792-1.005-.651-.238-1.341-.387-2.032-.455-.69-.069-1.645-.04-2.237.096-.592.136-1.165.366-1.737.68-.573.313-1.162.829-1.733 1.445-.571.615-.984 1.385-1.136 2.055-.152.67-.268 1.376-.369 1.683-.101.307-.126.318-.448.426-.323.108-.582.167-.804.21-.223.043-.454.083-.676.092-.221.009-.413.016-.683.04-.269.025-.613.063-.742.205-.128.141-.095.402-.022.646.074.244.213.493.257.747.044.254.263.604.422.727.158.123.487.142.825.123z"/>
     </svg>
@@ -168,12 +159,11 @@
   </a>
 
   <script>
-    // Scroll to the middle card on load
+    // desplazamiento inicial hacia la tarjeta del medio
     const carousel = document.getElementById('carousel');
-    let currentIndex = 1; // start at second card (zero‑indexed)
+    let currentIndex = 1;
     function scrollToIndex(index) {
       const cardWrapper = carousel.querySelector('.card-wrapper');
-      // card width including margin; margin‑right + margin‑left = 20px
       const cardWidth = cardWrapper.getBoundingClientRect().width + 20;
       carousel.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
     }
@@ -181,7 +171,7 @@
       setTimeout(() => scrollToIndex(currentIndex), 100);
     });
 
-    // Automatic slideshow: rotates through the cards every 3.5 seconds
+    // reproduccion automática: avanza cada 3,5 segundos
     let autoInterval;
     function startAuto() {
       autoInterval = setInterval(() => {
@@ -192,9 +182,7 @@
     function stopAuto() {
       clearInterval(autoInterval);
     }
-    // Start autoplay initially
     startAuto();
-    // Pause auto on user interaction and resume after 5 seconds of inactivity
     let resumeTimeout;
     function handleInteraction() {
       stopAuto();
