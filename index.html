@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Casino Preview • Bet30 • Ganamos • Rhinoplay</title>
-  <meta name="description" content="Previsualización real estilo holograma de Bet30, Ganamos y Rhinoplay. Toca para visitar." />
+  <title>Casino Preview • Holograma</title>
+  <meta name="description" content="Previsualización real estilo holograma con capturas. WhatsApp CTA." />
   <meta name="theme-color" content="#0b0f1a" />
   <style>
     *,*::before,*::after{box-sizing:border-box}
@@ -12,112 +12,167 @@
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
       color:#EAEAF2;
-      background: radial-gradient(1200px 600px at 50% -10%, rgba(255,215,0,.20), transparent 70%),
-                  radial-gradient(1000px 500px at 120% 100%, rgba(0,255,255,.12), transparent 70%),
-                  linear-gradient(180deg, #0b0f1a, #06070d 30%, #0b0f1a);
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(255,215,0,.20), transparent 70%),
+        radial-gradient(1000px 500px at 120% 100%, rgba(0,255,255,.12), transparent 70%),
+        linear-gradient(180deg, #0b0f1a, #06070d 30%, #0b0f1a);
       overflow-x:hidden;
     }
     .twinkles::before,.twinkles::after{content:"";position:fixed;inset:0;pointer-events:none;background-image:
         radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.25), transparent 50%),
-        radial-gradient(1.5px 1.5px at 70% 60%, rgba(0,255,255,.3), transparent 50%),
-        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,215,0,.3), transparent 50%);animation:drift 16s linear infinite;opacity:.4}
+        radial-gradient(1.5px 1.5px at 70% 60%, rgba(0,255,255,.30), transparent 50%),
+        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,215,0,.30), transparent 50%);
+      animation:drift 16s linear infinite;opacity:.4}
     .twinkles::after{animation-duration:24s;opacity:.25}
     @keyframes drift{0%{transform:translateY(0)}100%{transform:translateY(-20px)}}
+
     header{position:sticky;top:env(safe-area-inset-top);z-index:5;padding:clamp(14px,3vw,22px) 16px;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,0));backdrop-filter:blur(6px)}
     .badge{font-weight:700;letter-spacing:.3px;background:linear-gradient(90deg,#ffd700,#ff9f1a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,215,0,.25)}
     .title{font-size:clamp(20px,5vw,28px);font-weight:800;line-height:1;display:flex;flex-direction:column;align-items:center}
     .title small{margin-top:6px;font-size:clamp(11px,3vw,13px);opacity:.8}
+
     .row{display:flex;gap:14px;padding:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-    .card{position:relative;width:72vw;max-width:360px;min-width:260px;aspect-ratio:9/16;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));box-shadow:
-        0 0 0 1px rgba(255,255,255,.12) inset,0 10px 30px rgba(0,0,0,.5),0 0 30px rgba(0,255,255,.15);overflow:hidden;scroll-snap-align:center;
-      transform:perspective(900px) rotateY(-8deg) rotateX(2deg);transition:transform .3s ease, box-shadow .3s ease;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+    .row::-webkit-scrollbar{height:8px}
+    .row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#00f0ff,#ffd700);border-radius:999px}
+
+    .card{
+      position:relative;
+      width:72vw;max-width:360px;min-width:260px;aspect-ratio:9/16;
+      border-radius:20px;overflow:hidden;scroll-snap-align:center;
+      transform:perspective(900px) rotateY(-8deg) rotateX(2deg);
+      transition:transform .3s ease, box-shadow .3s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,.55), 0 0 30px rgba(0,255,255,.15);
+      background: #0a0d14;
+      isolation:isolate;
+    }
     .card:nth-child(2){transform:perspective(900px) rotateY(0deg) rotateX(0deg)}
     .card:nth-child(3){transform:perspective(900px) rotateY(8deg) rotateX(2deg)}
     .card:hover{transform:perspective(900px) rotateY(0deg) translateY(-4px) scale(1.01)}
-    .card::before{content:"";position:absolute;inset:-2px;border-radius:20px;background:conic-gradient(from 180deg at 50% 50%, rgba(0,255,255,.45), rgba(255,215,0,.45), rgba(255,0,80,.4), rgba(0,255,255,.45));filter:blur(12px);opacity:.45;z-index:0}
+
+    /* Neon rim + pulso */
+    .card::before{
+      content:""; position:absolute; inset:-2px; border-radius:22px;
+      background: conic-gradient(from 180deg at 50% 50%,
+        rgba(0,255,255,.50), rgba(255,215,0,.55), rgba(255,0,80,.45), rgba(0,255,255,.50));
+      filter: blur(14px); opacity:.55; z-index:-1;
+      animation: pulse 2.6s ease-in-out infinite;
+    }
+    @keyframes pulse{0%,100%{opacity:.35; transform:scale(.995)}50%{opacity:.7; transform:scale(1.01)}}
+
+    /* Orbitas de luz alrededor (halo externo) */
+    .orb, .orb2{
+      pointer-events:none; position:absolute; inset:-30px; z-index:-2; border-radius:28px;
+      background: radial-gradient(40% 60% at 10% 20%, rgba(0,255,255,.20), transparent 60%),
+                  radial-gradient(50% 40% at 90% 10%, rgba(255,215,0,.18), transparent 60%),
+                  radial-gradient(80% 80% at 50% 100%, rgba(255,0,80,.12), transparent 70%);
+      filter: blur(22px);
+      animation: floaty 7s ease-in-out infinite;
+    }
+    .orb2{ animation-duration: 11s; opacity:.75; }
+    @keyframes floaty{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-6px) translateX(3px)}100%{transform:translateY(0) translateX(0)}}
+
+    .viewport{position:absolute;inset:0;border-radius:16px;overflow:hidden;background:
+      radial-gradient(120% 60% at 50% -30%, rgba(255,0,80,.18), transparent 60%),
+      linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.2));
+    }
+    .viewport img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.02)}
     .scanline,.glare{position:absolute;inset:0;pointer-events:none;z-index:2}
     .scanline{background:repeating-linear-gradient(to bottom, rgba(255,255,255,.06), rgba(255,255,255,.06) 1px, transparent 1px, transparent 3px);mix-blend-mode:screen;animation:scan 5s linear infinite;opacity:.35}
     @keyframes scan{0%{background-position-y:0}100%{background-position-y:1000px}}
-    .glare{background:radial-gradient(600px 160px at -10% -20%, rgba(0,255,255,.28), transparent 60%),radial-gradient(400px 120px at 120% 0%, rgba(255,215,0,.18), transparent 60%)}
-    .viewport{position:absolute;inset:0;border-radius:16px;overflow:hidden;background:radial-gradient(120% 60% at 50% -30%, rgba(255,0,80,.18), transparent 60%),linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.2));z-index:1}
-    .viewport img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.02)}
-    .fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;text-align:center;z-index:1}
-    .badge-url{font-size:12px;opacity:.85;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg, rgba(0,255,255,.18), rgba(255,215,0,.18));border:1px solid rgba(255,255,255,.15)}
-    .btn{appearance:none;border:0;cursor:pointer;text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:800;letter-spacing:.2px;background:linear-gradient(180deg,#ffd700,#ff9f1a);color:#1a1000;box-shadow:0 6px 18px rgba(255,165,0,.35)}
-    .btn:active{transform:translateY(1px)}
-    .label{position:absolute;bottom:10px;left:10px;z-index:3;font-size:12px;font-weight:700;letter-spacing:.3px;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg, rgba(0,0,0,.5), rgba(0,0,0,.25));border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
-    .cta{position:sticky;bottom:env(safe-area-inset-bottom);margin:6px;padding:10px;background:linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.65));border:1px solid rgba(255,255,255,.12);border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 30px rgba(255,215,0,.12);backdrop-filter:blur(10px)}
-    .cta strong{font-size:13px}
-    .cta a{padding:10px 14px;border-radius:12px;font-weight:800;background:linear-gradient(180deg,#00f0ff,#00a3b0);color:#031316;text-decoration:none;box-shadow:0 6px 18px rgba(0,255,255,.35)}
-    .hint{font-size:12px;text-align:center;opacity:.8;margin:8px 16px 16px}
+    .glare{background:
+      radial-gradient(600px 160px at -10% -20%, rgba(0,255,255,.28), transparent 60%),
+      radial-gradient(400px 120px at 120% 0%, rgba(255,215,0,.18), transparent 60%);
+    }
+    .label{position:absolute;bottom:10px;left:10px;z-index:3;font-size:12px;font-weight:700;letter-spacing:.3px;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.25));border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
+
+    .hint{font-size:12px;text-align:center;opacity:.8;margin:8px 16px 80px}
+
+    /* WhatsApp CTA fijo */
+    .wa-cta{
+      position: fixed; left: 50%; transform: translateX(-50%);
+      bottom: calc(env(safe-area-inset-bottom) + 14px);
+      display:flex; align-items:center; gap:10px;
+      padding: 12px 16px; border-radius: 999px;
+      background: linear-gradient(180deg, #25D366, #1ebe57);
+      color: #042813; font-weight: 800; text-decoration:none;
+      box-shadow: 0 14px 34px rgba(37,211,102,.35), 0 0 0 1px rgba(0,0,0,.25) inset;
+      z-index: 50;
+    }
+    .wa-cta:active{transform:translateX(-50%) translateY(1px)}
+    .wa-cta svg{width:20px;height:20px;flex:0 0 20px;}
+
+    /* Hide footer CTA/linking from previous version (removed links) */
   </style>
 </head>
 <body class="twinkles">
   <header>
     <div class="title">
       <span class="badge">VISTA HOLOGRAMA</span>
-      <small>Capturas reales • Desliza y toca para entrar</small>
+      <small>Capturas reales • Desliza</small>
     </div>
   </header>
 
-  <section class="row" aria-label="Previsualizaciones">
+  <section class="row" id="row" aria-label="Previsualizaciones">
     <!-- Bet30 -->
-    <article class="card" data-url="https://bet30.ai">
-      <div class="viewport">
-        <img src="bet30-preview.jpg" alt="Vista previa Bet30" loading="lazy">
-      </div>
+    <article class="card">
+      <div class="orb"></div><div class="orb2"></div>
+      <div class="viewport"><img src="bet30-preview.jpg" alt="Vista previa Bet30" loading="lazy"></div>
       <div class="scanline"></div><div class="glare"></div>
-      <div class="fallback" hidden>
-        <div class="badge-url">bet30.ai</div>
-        <a class="btn" href="https://bet30.ai" target="_blank" rel="noopener">Visitar Bet30</a>
-      </div>
       <div class="label">Bet30</div>
     </article>
 
-    <!-- Ganamos -->
-    <article class="card" data-url="https://ganamos.io">
-      <div class="viewport">
-        <img src="ganamos-preview.jpg" alt="Vista previa Ganamos" loading="lazy">
-      </div>
+    <!-- Ganamos (centro) -->
+    <article class="card" id="center-card">
+      <div class="orb"></div><div class="orb2"></div>
+      <div class="viewport"><img src="ganamos-preview.jpg" alt="Vista previa Ganamos" loading="lazy"></div>
       <div class="scanline"></div><div class="glare"></div>
-      <div class="fallback" hidden>
-        <div class="badge-url">ganamos.io</div>
-        <a class="btn" href="https://ganamos.io" target="_blank" rel="noopener">Visitar Ganamos</a>
-      </div>
       <div class="label">Ganamos</div>
     </article>
 
     <!-- Rhinoplay -->
-    <article class="card" data-url="https://rhinoplay.biz">
-      <div class="viewport">
-        <img src="rhinoplay-preview.jpg" alt="Vista previa Rhinoplay" loading="lazy">
-      </div>
+    <article class="card">
+      <div class="orb"></div><div class="orb2"></div>
+      <div class="viewport"><img src="rhinoplay-preview.jpg" alt="Vista previa Rhinoplay" loading="lazy"></div>
       <div class="scanline"></div><div class="glare"></div>
-      <div class="fallback" hidden>
-        <div class="badge-url">rhinoplay.biz</div>
-        <a class="btn" href="https://rhinoplay.biz" target="_blank" rel="noopener">Visitar Rhinoplay</a>
-      </div>
       <div class="label">Rhinoplay</div>
     </article>
   </section>
 
-  <p class="hint">Consejo: añade tu botón de WhatsApp/Lead con Pixel debajo.</p>
+  <p class="hint">Arrastra para explorar. Nota: Se quitaron enlaces a los sitios; usa el botón de WhatsApp para contacto.</p>
 
-  <footer class="cta" aria-label="Llamado a la acción">
-    <strong>¿Listo para jugar?</strong>
-    <a href="#" id="primary-cta">Ir ahora</a>
-  </footer>
+  <!-- WhatsApp CTA (sin enlaces a sitios) -->
+  <a class="wa-cta" id="waBtn" href="#">
+    <!-- WhatsApp SVG (marca reconocible) -->
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" role="img">
+      <path fill="#E9F9EE" d="M19.5 17.7c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.5.1-.2.3-.6.9-.7 1-.1.1-.2.1-.5 0-.3-.1-1.1-.4-2.1-1.2-.8-.6-1.4-1.4-1.6-1.7-.2-.3 0-.4.1-.5.1-.1.3-.3.4-.4.1-.1.1-.2.2-.4.1-.1.1-.3 0-.4 0-.1-.5-1.3-.7-1.8-.2-.5-.4-.4-.5-.4h-.4c-.1 0-.4.1-.6.3-.2.2-.8.7-.8 1.7s.8 1.9.9 2 .1.2.3.5c.2.3 1.7 2.6 4.1 3.6 2.4 1 .2.3 3 .4 1 .2 1.9-.1 2.6-.8.6-.7.7-1.5.5-1.7-.2-.1-.4-.2-.7-.3z"/>
+      <path fill="#25D366" d="M26.8 5.2A12.7 12.7 0 0 0 16.1 1C8.9 1 3 6.8 3 14c0 2.3.6 4.6 1.8 6.6L3 31l10.7-1.8a12.9 12.9 0 0 0 6.2 1.6c7.2 0 13.1-5.9 13.1-13.1 0-3.5-1.4-6.7-3.9-9.3zm-10.7 22c-2 0-3.9-.5-5.6-1.5l-.4-.2-6.4 1.1 1.1-6.2-.3-.4a11.3 11.3 0 0 1-1.7-6c0-6.2 5-11.3 11.3-11.3 3 0 5.8 1.2 7.9 3.3 2.1 2.1 3.3 4.9 3.3 7.9 0 6.3-5.1 11.3-11.2 11.3z"/>
+    </svg>
+    <span>Hablar por Whatsapp</span>
+  </a>
 
   <script>
-    // Click en tarjeta abre el sitio real
-    document.querySelectorAll('.card').forEach(card => {
-      const url = card.getAttribute('data-url');
-      card.addEventListener('click', () => window.open(url, '_blank', 'noopener'), {passive:true});
-    });
-    // CTA principal a Ganamos por defecto (cámbialo si quieres)
-    document.getElementById('primary-cta').addEventListener('click', (e)=>{
-      e.preventDefault(); window.open('https://ganamos.io', '_blank', 'noopener');
-    });
+    // Centrar la tarjeta del medio al iniciar
+    const row = document.getElementById('row');
+    const centerCard = document.getElementById('center-card');
+    function centerOnLoad(){
+      if(!row || !centerCard) return;
+      const rowRect = row.getBoundingClientRect();
+      const cardRect = centerCard.getBoundingClientRect();
+      // Scroll so that center-card esté al centro del viewport
+      const current = row.scrollLeft + (cardRect.left - rowRect.left);
+      const target = current - (rowRect.width/2 - cardRect.width/2);
+      row.scrollTo({ left: target, behavior: 'instant' });
+    }
+    // Run after layout
+    window.addEventListener('load', () => setTimeout(centerOnLoad, 50));
+
+    // Botón de WhatsApp (sin enlazar a sitios)
+    document.getElementById('waBtn').addEventListener('click', (e)=>{
+      e.preventDefault();
+      // Reemplaza con tu link de WhatsApp real (wa.me) si lo deseas:
+      // window.location.href = 'https://wa.me/598XXXXXXXX?text=Hola%20quiero%20informaci%C3%B3n';
+      alert('Aquí irá tu enlace de WhatsApp. Pásame el número y mensaje y lo dejo integrado.');
+    }, {passive:false});
   </script>
 </body>
 </html>
