@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Casino Preview • Aura exterior + Slideshow (video Bet30)</title>
+  <title>Casino Preview • Slideshow con videos</title>
   <meta name="theme-color" content="#0b0f1a" />
   <style>
     *,*::before,*::after{box-sizing:border-box}
@@ -27,21 +27,22 @@
     .row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#00f0ff,#ffd700);border-radius:999px}
 
     .wrap{position:relative;scroll-snap-align:center; flex:0 0 auto;}
+    /* Aura exterior, fuera de la tarjeta */
     .aura{
-      position:absolute; inset:0; border-radius:24px;
-      transform: scale(1.06);
+      position:absolute; inset:0; border-radius:26px;
+      transform: scale(1.08);
       z-index:0; pointer-events:none;
       background:
         radial-gradient(120% 80% at 50% 0%, rgba(0,255,255,.22), transparent 65%),
         radial-gradient(130% 90% at 0% 100%, rgba(255,215,0,.20), transparent 60%),
         radial-gradient(130% 90% at 100% 100%, rgba(255,0,80,.16), transparent 60%);
-      filter: blur(20px);
+      filter: blur(22px);
       animation: shimmer 6.5s ease-in-out infinite alternate;
       opacity:.9;
     }
     @keyframes shimmer{
-      0% { transform: scale(1.04) translateY(0) }
-      100% { transform: scale(1.08) translateY(-3px) }
+      0% { transform: scale(1.06) translateY(0) }
+      100% { transform: scale(1.1) translateY(-3px) }
     }
 
     .card{
@@ -49,24 +50,26 @@
       width:72vw;max-width:360px;min-width:260px;aspect-ratio:9/16;
       border-radius:var(--r);
       overflow:hidden;
-      transform:perspective(900px) rotateY(-8deg) rotateX(2deg);
+      transform:perspective(900px) rotateY(-6deg) rotateX(1.5deg);
       transition:transform .3s ease, box-shadow .3s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,.55);
-      background:#060a12;
+      /* sombra detrás (elevación) */
+      box-shadow: 0 18px 40px rgba(0,0,0,.55), 0 3px 10px rgba(0,0,0,.35);
+      background:#0a0f18;
       position:relative; z-index:1;
     }
     .wrap:nth-child(2) .card{transform:perspective(900px) rotateY(0) rotateX(0)}
-    .wrap:nth-child(3) .card{transform:perspective(900px) rotateY(8deg) rotateX(2deg)}
+    .wrap:nth-child(3) .card{transform:perspective(900px) rotateY(6deg) rotateX(1.5deg)}
     .card:hover{transform:perspective(900px) rotateY(0) translateY(-4px) scale(1.01)}
 
     .viewport{position:absolute; inset:0; border-radius:inherit; overflow:hidden; z-index:1;}
     .viewport img, .viewport video{width:100%; height:100%; object-fit:cover; display:block;}
     .viewport video{background:#000;}
 
+    /* sutil holograma interior sin invadir los bordes */
     .scanline, .glare{position:absolute; inset:0; pointer-events:none; z-index:2}
-    .scanline{background:repeating-linear-gradient(to bottom, rgba(255,255,255,.05), rgba(255,255,255,.05) 1px, transparent 1px, transparent 3px); mix-blend-mode:screen; animation:scan 5s linear infinite; opacity:.25}
+    .scanline{background:repeating-linear-gradient(to bottom, rgba(255,255,255,.05), rgba(255,255,255,.05) 1px, transparent 1px, transparent 3px); mix-blend-mode:screen; animation:scan 5s linear infinite; opacity:.22}
     @keyframes scan{0%{background-position-y:0}100%{background-position-y:1000px}}
-    .glare{background: radial-gradient(500px 140px at -10% -20%, rgba(0,255,255,.18), transparent 60%), radial-gradient(380px 110px at 120% 0%, rgba(255,215,0,.14), transparent 60%);}
+    .glare{background: radial-gradient(500px 140px at -10% -20%, rgba(0,255,255,.12), transparent 60%), radial-gradient(380px 110px at 120% 0%, rgba(255,215,0,.12), transparent 60%);}
 
     .label{position:absolute;bottom:10px;left:10px;z-index:3;font-size:12px;font-weight:800;letter-spacing:.3px;padding:6px 10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.25));border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
 
@@ -90,17 +93,16 @@
   <header>
     <div class="title">
       <span class="badge">VISTA HOLOGRAMA</span>
-      <small>Aura exterior + slideshow + video Bet30</small>
+      <small>Slideshow con videos + bordes redondeados y sombra</small>
     </div>
   </header>
 
   <section class="row" id="row" aria-label="Previsualizaciones">
-    <!-- Bet30 con VIDEO -->
+    <!-- Bet30 VIDEO -->
     <div class="wrap" data-name="Bet30">
       <div class="aura" aria-hidden="true"></div>
       <article class="card">
         <div class="viewport">
-          <!-- Cambiá el src a tu archivo real si usás otro nombre -->
           <video id="bet30Video" src="bet30-preview.mp4" muted playsinline webkit-playsinline autoplay loop preload="metadata" poster="bet30-preview.jpg"></video>
         </div>
         <div class="scanline"></div><div class="glare"></div>
@@ -108,21 +110,25 @@
       </article>
     </div>
 
-    <!-- Ganamos (centro) -->
+    <!-- Ganamos VIDEO -->
     <div class="wrap" id="center-wrap" data-name="Ganamos">
       <div class="aura" aria-hidden="true"></div>
       <article class="card" id="center-card">
-        <div class="viewport"><img src="ganamos-preview.jpg" alt="Vista previa Ganamos" loading="lazy"></div>
+        <div class="viewport">
+          <video id="ganamosVideo" src="ganamos-preview.mp4" muted playsinline webkit-playsinline autoplay loop preload="metadata" poster="ganamos-preview.jpg"></video>
+        </div>
         <div class="scanline"></div><div class="glare"></div>
         <div class="label">Ganamos</div>
       </article>
     </div>
 
-    <!-- Rhinoplay -->
+    <!-- Rhinoplay VIDEO -->
     <div class="wrap" data-name="Rhinoplay">
       <div class="aura" aria-hidden="true"></div>
       <article class="card">
-        <div class="viewport"><img src="rhinoplay-preview.jpg" alt="Vista previa Rhinoplay" loading="lazy"></div>
+        <div class="viewport">
+          <video id="rhinoVideo" src="rhinoplay-preview.mp4" muted playsinline webkit-playsinline autoplay loop preload="metadata" poster="rhinoplay-preview.jpg"></video>
+        </div>
         <div class="scanline"></div><div class="glare"></div>
         <div class="label">Rhinoplay</div>
       </article>
@@ -142,7 +148,6 @@
   <script>
     const row = document.getElementById('row');
     const wraps = Array.from(document.querySelectorAll('.wrap'));
-    const centerCard = document.getElementById('center-card');
     let idx = 1; // centro
     let timer = null;
     const INTERVAL = 3500; // ms
@@ -155,12 +160,10 @@
       const current = row.scrollLeft + (wrapRect.left - rowRect.left);
       return current - (rowRect.width/2 - wrapRect.width/2);
     }
-
     function goToIndex(i){
       if(!wraps[i]) return;
       row.scrollTo({ left: leftForIndex(i), behavior: 'smooth' });
     }
-
     function start(){
       stop();
       timer = setInterval(()=>{
@@ -169,27 +172,23 @@
         goToIndex(idx);
       }, INTERVAL);
     }
-
     function stop(){ if (timer){ clearInterval(timer); timer = null; } }
-
     function pauseAndResume(){
       paused = true;
       if (resumeHandle){ clearTimeout(resumeHandle); }
       resumeHandle = setTimeout(()=>{ paused = false; }, 4000);
     }
-
     function centerOnLoad(){
       idx = 1;
       goToIndex(idx);
       start();
-      // iOS/video inline fix: ensure play attempt after user gesture fallback
-      const v = document.getElementById('bet30Video');
-      if (v){ v.muted = true; v.play().catch(()=>{}); }
+      // intentar play para iOS/Android
+      [document.getElementById('bet30Video'), document.getElementById('ganamosVideo'), document.getElementById('rhinoVideo')].forEach(v=>{
+        if(v){ v.muted = true; v.play().catch(()=>{}); }
+      });
     }
-
     window.addEventListener('load', () => setTimeout(centerOnLoad, 100));
     window.addEventListener('resize', () => setTimeout(()=>goToIndex(idx), 60));
-
     ['pointerdown','wheel','touchstart','keydown'].forEach(ev=>{
       row.addEventListener(ev, pauseAndResume, {passive:true});
     });
@@ -198,11 +197,6 @@
       e.preventDefault();
       alert('Pásame el número y texto y armo el enlace wa.me en el botón.');
     }, {passive:false});
-
-    // Pausar cuando la pestaña está oculta
-    document.addEventListener('visibilitychange', () => {
-      paused = document.hidden || paused;
-    });
   </script>
 </body>
 </html>
