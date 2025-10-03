@@ -1,202 +1,211 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Casino Preview • Slideshow con videos</title>
-  <meta name="theme-color" content="#0b0f1a" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing Casino Slideshow</title>
   <style>
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{margin:0;padding:0;height:100%}
-    body{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
-      color:#EAEAF2;
-      background:
-        radial-gradient(1200px 600px at 50% -10%, rgba(255,215,0,.18), transparent 70%),
-        radial-gradient(1000px 500px at 120% 100%, rgba(0,255,255,.10), transparent 70%),
-        linear-gradient(180deg, #0b0f1a, #06070d 30%, #0b0f1a);
-      overflow-x:hidden;
-    }
-    header{position:sticky;top:env(safe-area-inset-top);z-index:5;padding:clamp(14px,3vw,22px) 16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,0));backdrop-filter:blur(6px)}
-    .badge{font-weight:800;letter-spacing:.3px;background:linear-gradient(90deg,#ffd700,#ff9f1a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,215,0,.25)}
-    .title{font-size:clamp(20px,5vw,28px);font-weight:900;line-height:1;display:flex;flex-direction:column;align-items:center}
-    .title small{margin-top:6px;font-size:clamp(11px,3vw,13px);opacity:.85}
+    /*
+      Mobile‑first styles for a horizontal slideshow of three cards.  Each card
+      maintains a 9:16 aspect ratio and includes a subtle aura around its
+      perimeter without intruding on the image or video content.  The cards
+      have matching dimensions so that they appear uniform, and they sit
+      inside a flex container that snaps each card into view when scrolling.
 
-    .row{display:flex;gap:18px;padding:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch; scroll-behavior: smooth;}
-    .row::-webkit-scrollbar{height:8px}
-    .row::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#00f0ff,#ffd700);border-radius:999px}
-
-    .wrap{position:relative;scroll-snap-align:center; flex:0 0 auto;}
-    /* Aura exterior, fuera de la tarjeta */
-    .aura{
-      position:absolute; inset:0; border-radius:26px;
-      transform: scale(1.08);
-      z-index:0; pointer-events:none;
-      background:
-        radial-gradient(120% 80% at 50% 0%, rgba(0,255,255,.22), transparent 65%),
-        radial-gradient(130% 90% at 0% 100%, rgba(255,215,0,.20), transparent 60%),
-        radial-gradient(130% 90% at 100% 100%, rgba(255,0,80,.16), transparent 60%);
-      filter: blur(22px);
-      animation: shimmer 6.5s ease-in-out infinite alternate;
-      opacity:.9;
-    }
-    @keyframes shimmer{
-      0% { transform: scale(1.06) translateY(0) }
-      100% { transform: scale(1.1) translateY(-3px) }
+      The autoplay script below scrolls between cards every 3.5 seconds but
+      pauses if the user interacts with the carousel.  After a short
+      inactivity period, autoplay resumes automatically.
+    */
+    :root {
+      /* Control the card dimensions; the width is a percentage of the
+         viewport width and height derives from the 9/16 aspect ratio.  If
+         necessary you can tweak this variable to shrink or enlarge the
+         cards. */
+      --card-width: 80vw;
+      --card-radius: 20px;
+      --aura-size: 30px;
     }
 
-    .card{
-      --r: 22px;
-      width:72vw;max-width:360px;min-width:260px;aspect-ratio:9/16;
-      border-radius:var(--r);
-      overflow:hidden;
-      transform:perspective(900px) rotateY(-6deg) rotateX(1.5deg);
-      transition:transform .3s ease, box-shadow .3s ease;
-      /* sombra detrás (elevación) */
-      box-shadow: 0 18px 40px rgba(0,0,0,.55), 0 3px 10px rgba(0,0,0,.35);
-      background:#0a0f18;
-      position:relative; z-index:1;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: radial-gradient(circle at top left, #140032 0%, #04010e 100%);
+      overflow-x: hidden;
+      font-family: sans-serif;
+      color: #fff;
     }
-    .wrap:nth-child(2) .card{transform:perspective(900px) rotateY(0) rotateX(0)}
-    .wrap:nth-child(3) .card{transform:perspective(900px) rotateY(6deg) rotateX(1.5deg)}
-    .card:hover{transform:perspective(900px) rotateY(0) translateY(-4px) scale(1.01)}
 
-    .viewport{position:absolute; inset:0; border-radius:inherit; overflow:hidden; z-index:1;}
-    .viewport img, .viewport video{width:100%; height:100%; object-fit:cover; display:block;}
-    .viewport video{background:#000;}
-
-    /* sutil holograma interior sin invadir los bordes */
-    .scanline, .glare{position:absolute; inset:0; pointer-events:none; z-index:2}
-    .scanline{background:repeating-linear-gradient(to bottom, rgba(255,255,255,.05), rgba(255,255,255,.05) 1px, transparent 1px, transparent 3px); mix-blend-mode:screen; animation:scan 5s linear infinite; opacity:.22}
-    @keyframes scan{0%{background-position-y:0}100%{background-position-y:1000px}}
-    .glare{background: radial-gradient(500px 140px at -10% -20%, rgba(0,255,255,.12), transparent 60%), radial-gradient(380px 110px at 120% 0%, rgba(255,215,0,.12), transparent 60%);}
-
-    .label{position:absolute;bottom:10px;left:10px;z-index:3;font-size:12px;font-weight:800;letter-spacing:.3px;padding:6px 10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.25));border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
-
-    .hint{font-size:12px;text-align:center;opacity:.85;margin:8px 16px 80px}
-
-    .wa-cta{
-      position: fixed; left: 50%; transform: translateX(-50%);
-      bottom: calc(env(safe-area-inset-bottom) + 14px);
-      display:flex; align-items:center; gap:10px;
-      padding: 12px 16px; border-radius: 999px;
-      background: linear-gradient(180deg, #25D366, #1ebe57);
-      color: #042813; font-weight: 900; text-decoration:none;
-      box-shadow: 0 14px 34px rgba(37,211,102,.35), 0 0 0 1px rgba(0,0,0,.25) inset;
-      z-index: 50;
+    /* Container holding the cards */
+    #carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding: 40px 0; /* provide vertical breathing room */
     }
-    .wa-cta:active{transform:translateX(-50%) translateY(1px)}
-    .wa-cta svg{width:20px;height:20px;flex:0 0 20px;}
+
+    /* Each card wrapper uses scroll-snap-align to center on the viewport */
+    .card-wrapper {
+      position: relative;
+      flex: 0 0 auto;
+      scroll-snap-align: center;
+      width: var(--card-width);
+      /* Height calculated from 9:16 (width/height) ratio.  Multiply width by
+         (16 / 9) to obtain height. */
+      height: calc(var(--card-width) * 16 / 9);
+      margin: 0 10px;
+    }
+
+    /* The aura sits behind the card and glows outward */
+    .aura {
+      position: absolute;
+      top: calc(-1 * var(--aura-size) / 2);
+      left: calc(-1 * var(--aura-size) / 2);
+      right: calc(-1 * var(--aura-size) / 2);
+      bottom: calc(-1 * var(--aura-size) / 2);
+      border-radius: calc(var(--card-radius) + var(--aura-size));
+      background: radial-gradient(circle at 30% 30%, rgba(255, 0, 200, 0.6), transparent 70%),
+                  radial-gradient(circle at 70% 70%, rgba(0, 200, 255, 0.6), transparent 70%);
+      filter: blur(25px);
+      z-index: 0;
+      animation: auraPulse 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes auraPulse {
+      0% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1;   transform: scale(1.05); }
+      100% { opacity: 0.7; transform: scale(1); }
+    }
+
+    /* The card containing a video or image */
+    .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      z-index: 1; /* sits above aura */
+    }
+
+    .card video,
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* WhatsApp button fixed at bottom right */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #25D366;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 40px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      z-index: 100;
+    }
+
+    .whatsapp-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="title">
-      <span class="badge">VISTA HOLOGRAMA</span>
-      <small>Slideshow con videos + bordes redondeados y sombra</small>
+  <div id="carousel">
+    <!-- Card 1: Bet30 (mp4) -->
+    <div class="card-wrapper">
+      <div class="aura"></div>
+      <div class="card">
+        <video autoplay loop muted playsinline poster="bet30-preview.jpg">
+          <source src="bet30-preview.mp4" type="video/mp4" />
+          Tu navegador no soporta video HTML5.
+        </video>
+      </div>
     </div>
-  </header>
-
-  <section class="row" id="row" aria-label="Previsualizaciones">
-    <!-- Bet30 VIDEO -->
-    <div class="wrap" data-name="Bet30">
-      <div class="aura" aria-hidden="true"></div>
-      <article class="card">
-        <div class="viewport">
-          <video id="bet30Video" src="bet30-preview.mp4" muted playsinline webkit-playsinline autoplay loop preload="metadata" poster="bet30-preview.jpg"></video>
-        </div>
-        <div class="scanline"></div><div class="glare"></div>
-        <div class="label">Bet30</div>
-      </article>
+    <!-- Card 2: Ganamos (mp4) -->
+    <div class="card-wrapper">
+      <div class="aura"></div>
+      <div class="card">
+        <video autoplay loop muted playsinline poster="ganamos-preview.jpg">
+          <source src="ganamos-preview.mp4" type="video/mp4" />
+          Tu navegador no soporta video HTML5.
+        </video>
+      </div>
     </div>
-
-    <!-- Ganamos VIDEO -->
-    <div class="wrap" id="center-wrap" data-name="Ganamos">
-      <div class="aura" aria-hidden="true"></div>
-      <article class="card" id="center-card">
-        <div class="viewport">
-          <video id="ganamosVideo" src="ganamos-preview.mp4" muted playsinline webkit-playsinline autoplay loop preload="metadata" poster="ganamos-preview.jpg"></video>
-        </div>
-        <div class="scanline"></div><div class="glare"></div>
-        <div class="label">Ganamos</div>
-      </article>
+    <!-- Card 3: Rhinoplay (mp4) -->
+    <div class="card-wrapper">
+      <div class="aura"></div>
+      <div class="card">
+        <video autoplay loop muted playsinline poster="rhinoplay-preview.jpg">
+          <source src="rhinoplay-preview.mp4" type="video/mp4" />
+          Tu navegador no soporta video HTML5.
+        </video>
+      </div>
     </div>
+  </div>
 
-    <!-- Rhinoplay VIDEO -->
-    <div class="wrap" data-name="Rhinoplay">
-      <div class="aura" aria-hidden="true"></div>
-      <article class="card">
-        <div class="viewport">
-          <video id="rhinoVideo" src="rhinoplay-preview.mp4" muted playsinline webkit-playsinline autoplay loop preload="metadata" poster="rhinoplay-preview.jpg"></video>
-        </div>
-        <div class="scanline"></div><div class="glare"></div>
-        <div class="label">Rhinoplay</div>
-      </article>
-    </div>
-  </section>
-
-  <p class="hint">Sin enlaces a los sitios. Usa el botón de WhatsApp para contacto.</p>
-
-  <a class="wa-cta" id="waBtn" href="#">
-    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" role="img">
-      <path fill="#E9F9EE" d="M19.5 17.7c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.5.1-.2.3-.6.9-.7 1-.1.1-.2.1-.5 0-.3-.1-1.1-.4-2.1-1.2-.8-.6-1.4-1.4-1.6-1.7-.2-.3 0-.4.1-.5.1-.1.3-.3.4-.4.1-.1.1-.2.2-.4.1-.1.1-.3 0-.4 0-.1-.5-1.3-.7-1.8-.2-.5-.4-.4-.5-.4h-.4c-.1 0-.4.1-.6.3-.2.2-.8.7-.8 1.7s.8 1.9.9 2 .1.2.3.5c.2.3 1.7 2.6 4.1 3.6 2.4 1 .2.3 3 .4 1 .2 1.9-.1 2.6-.8.6-.7.7-1.5.5-1.7-.2-.1-.4-.2-.7-.3z"/>
-      <path fill="#25D366" d="M26.8 5.2A12.7 12.7 0 0 0 16.1 1C8.9 1 3 6.8 3 14c0 2.3.6 4.6 1.8 6.6L3 31l10.7-1.8a12.9 12.9 0 0 0 6.2 1.6c7.2 0 13.1-5.9 13.1-13.1 0-3.5-1.4-6.7-3.9-9.3zm-10.7 22c-2 0-3.9-.5-5.6-1.5l-.4-.2-6.4 1.1 1.1-6.2-.3-.4a11.3 11.3 0 0 1-1.7-6c0-6.2 5-11.3 11.3-11.3 3 0 5.8 1.2 7.9 3.3 2.1 2.1 3.3 4.9 3.3 7.9 0 6.3-5.1 11.3-11.2 11.3z"/>
+  <!-- WhatsApp button: replace the href with your wa.me link if desired -->
+  <a class="whatsapp-btn" href="#">
+    <!-- WhatsApp logo (SVG path) -->
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12.005 2.003c5.519 0 10 4.477 10 9.996 0 5.522-4.481 10-10 10-1.693 0-3.32-.427-4.754-1.236L2 22l1.297-5.242C2.431 15.339 2 13.722 2 12c0-5.519 4.486-9.997 10.005-9.997zM7.185 15.478l.193.116c1.582.943 2.88 1.459 3.894 1.548.563.05 1.093-.165 1.517-.5l.247-.208c.193-.18.442-.419.692-.455.264-.038.53.11.846.193.316.084 2.02.949 2.359 1.088.339.137.563.208.81.083.247-.124 1.176-.77 1.338-1.515.163-.745.163-1.371.116-1.457-.047-.086-.074-.125-.166-.208l-.4-.402c-.204-.208-.475-.525-.632-.788-.158-.264-.316-.344-.527-.515-.211-.172-.211-.344-.316-.56-.105-.215-.474-.596-.685-.838-.211-.243-.422-.243-.632-.243h-.264c-.211 0-.316.01-.474.217-.159.206-.653.786-.653 1.616 0 .83.671 1.63.764 1.744.094.114.987 1.511 2.363 2.133 1.376.623 1.376.414 1.625.396.248-.019.792-.275 1.014-.594.221-.319.398-.59.593-.939.194-.35.194-.635.292-.777.099-.142.486-.355.74-.492.253-.137.474-.217.474-.381 0-.165-.07-.29-.106-.4-.036-.11-.276-.433-.516-.645-.238-.211-.947-.594-1.28-.738-.334-.145-.555-.165-.792-.165-.237 0-.581.011-.944.331-.363.32-1.256 1.203-1.256 2.752 0 1.548 1.537 3.177 1.756 3.395.219.218 3.042 1.84 3.62 2.05.579.21 1.091.189 1.549.112.458-.077 1.567-.694 1.791-1.37.223-.676.223-1.243.126-1.378-.097-.134-.143-.201-.395-.422-.253-.221-.711-.75-.988-1.074-.276-.323-.553-.489-.678-.663-.126-.174-.158-.242-.348-.674-.19-.432-.29-.558-.47-.628-.18-.07-.463-.07-.7-.07-.238 0-.455.063-.692.324-.238.261-.713.926-.713 1.735 0 .809.685 1.61.79 1.732.105.122.99 1.529 2.367 2.146 1.377.618 2.47.807 3.098.827.63.02 1.071-.167 1.523-.513.451-.346.496-.692.599-1.024.102-.333.251-.614.388-.816.137-.202.147-.289.252-.452.106-.163.158-.26.135-.488-.022-.227-.383-1.163-.666-1.676-.284-.513-1.141-.768-1.792-1.005-.651-.238-1.341-.387-2.032-.455-.69-.069-1.645-.04-2.237.096-.592.136-1.165.366-1.737.68-.573.313-1.162.829-1.733 1.445-.571.615-.984 1.385-1.136 2.055-.152.67-.268 1.376-.369 1.683-.101.307-.126.318-.448.426-.323.108-.582.167-.804.21-.223.043-.454.083-.676.092-.221.009-.413.016-.683.04-.269.025-.613.063-.742.205-.128.141-.095.402-.022.646.074.244.213.493.257.747.044.254.263.604.422.727.158.123.487.142.825.123z"/>
     </svg>
-    <span>Hablar por Whatsapp</span>
+    Hablar por Whatsapp
   </a>
 
   <script>
-    const row = document.getElementById('row');
-    const wraps = Array.from(document.querySelectorAll('.wrap'));
-    let idx = 1; // centro
-    let timer = null;
-    const INTERVAL = 3500; // ms
-    let paused = false;
-    let resumeHandle = null;
-
-    function leftForIndex(i){
-      const rowRect = row.getBoundingClientRect();
-      const wrapRect = wraps[i].getBoundingClientRect();
-      const current = row.scrollLeft + (wrapRect.left - rowRect.left);
-      return current - (rowRect.width/2 - wrapRect.width/2);
+    // Scroll to the middle card on load
+    const carousel = document.getElementById('carousel');
+    let currentIndex = 1; // start at second card (zero‑indexed)
+    function scrollToIndex(index) {
+      const cardWrapper = carousel.querySelector('.card-wrapper');
+      // card width including margin; margin‑right + margin‑left = 20px
+      const cardWidth = cardWrapper.getBoundingClientRect().width + 20;
+      carousel.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
     }
-    function goToIndex(i){
-      if(!wraps[i]) return;
-      row.scrollTo({ left: leftForIndex(i), behavior: 'smooth' });
-    }
-    function start(){
-      stop();
-      timer = setInterval(()=>{
-        if (paused) return;
-        idx = (idx + 1) % wraps.length;
-        goToIndex(idx);
-      }, INTERVAL);
-    }
-    function stop(){ if (timer){ clearInterval(timer); timer = null; } }
-    function pauseAndResume(){
-      paused = true;
-      if (resumeHandle){ clearTimeout(resumeHandle); }
-      resumeHandle = setTimeout(()=>{ paused = false; }, 4000);
-    }
-    function centerOnLoad(){
-      idx = 1;
-      goToIndex(idx);
-      start();
-      // intentar play para iOS/Android
-      [document.getElementById('bet30Video'), document.getElementById('ganamosVideo'), document.getElementById('rhinoVideo')].forEach(v=>{
-        if(v){ v.muted = true; v.play().catch(()=>{}); }
-      });
-    }
-    window.addEventListener('load', () => setTimeout(centerOnLoad, 100));
-    window.addEventListener('resize', () => setTimeout(()=>goToIndex(idx), 60));
-    ['pointerdown','wheel','touchstart','keydown'].forEach(ev=>{
-      row.addEventListener(ev, pauseAndResume, {passive:true});
+    window.addEventListener('load', () => {
+      setTimeout(() => scrollToIndex(currentIndex), 100);
     });
 
-    document.getElementById('waBtn').addEventListener('click', (e)=>{
-      e.preventDefault();
-      alert('Pásame el número y texto y armo el enlace wa.me en el botón.');
-    }, {passive:false});
+    // Automatic slideshow: rotates through the cards every 3.5 seconds
+    let autoInterval;
+    function startAuto() {
+      autoInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % carousel.children.length;
+        scrollToIndex(currentIndex);
+      }, 3500);
+    }
+    function stopAuto() {
+      clearInterval(autoInterval);
+    }
+    // Start autoplay initially
+    startAuto();
+    // Pause auto on user interaction and resume after 5 seconds of inactivity
+    let resumeTimeout;
+    function handleInteraction() {
+      stopAuto();
+      clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(() => {
+        startAuto();
+      }, 5000);
+    }
+    ['mousedown','touchstart','wheel','keydown'].forEach(evt => {
+      carousel.addEventListener(evt, handleInteraction);
+    });
   </script>
 </body>
 </html>
