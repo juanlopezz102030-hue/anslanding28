@@ -277,5 +277,69 @@
 
   
   </div>
-  </div></body>
+  </div>
+  <script>
+    (function(){
+      const carousel = document.getElementById('carousel');
+      if (!carousel) return;
+      const STEP_MS = 4000;       // tiempo entre slides
+      const SCROLL_BEHAVIOR = 'smooth';
+      let timer = null;
+      let pausedUntil = 0;
+
+      function cardStep() {
+        const firstCard = carousel.querySelector('.card-wrapper');
+        if (!firstCard) return 0;
+        const style = getComputedStyle(firstCard);
+        const marginL = parseFloat(style.marginLeft) || 0;
+        const marginR = parseFloat(style.marginRight) || 0;
+        return firstCard.getBoundingClientRect().width + marginL + marginR;
+      }
+
+      function next() {
+        const step = cardStep();
+        if (!step) return;
+        const { scrollLeft, scrollWidth, clientWidth } = carousel;
+        // Si estamos cerca del final, volvemos al inicio
+        if (scrollLeft + clientWidth >= scrollWidth - step * 0.6) {
+          carousel.scrollTo({ left: 0, behavior: SCROLL_BEHAVIOR });
+        } else {
+          carousel.scrollTo({ left: scrollLeft + step, behavior: SCROLL_BEHAVIOR });
+        }
+      }
+
+      function start() {
+        stop();
+        timer = setInterval(() => {
+          const now = Date.now();
+          if (now < pausedUntil) return; // respetar pausa por interacción
+          next();
+        }, STEP_MS);
+      }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+      // Pausar en interacción del usuario y reanudar luego
+      ['pointerdown','touchstart','mouseenter','focusin'].forEach(evt => {
+        carousel.addEventListener(evt, () => { pausedUntil = Date.now() + 7000; }, { passive: true });
+      });
+
+      // Recalcular al rotar / cambiar tamaño
+      window.addEventListener('resize', () => { pausedUntil = Date.now() + 1000; }, { passive: true });
+
+      // Iniciar cuando el carrusel esté en viewport (por si se carga abajo)
+      const startWhenVisible = () => {
+        const rect = carousel.getBoundingClientRect();
+        if (rect.bottom > 0 && rect.top < innerHeight) {
+          start();
+          document.removeEventListener('scroll', startWhenVisible, true);
+        }
+      };
+      document.addEventListener('scroll', startWhenVisible, true);
+      startWhenVisible();
+      // fallback por si no se dispara scroll
+      setTimeout(start, 1000);
+    })();
+  </script>
+
+</body>
 </html>
