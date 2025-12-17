@@ -216,7 +216,154 @@
   mask-repeat: no-repeat;
 }
 
-  </style>
+  
+/* ====== 3D: Rotación continua de las 3 tarjetas (override) ======
+   - Mantiene tus .card-wrapper/.aura/.card tal cual
+   - Convierte el carrusel horizontal en un anillo 3D que gira continuamente
+   - Pausa al mantener el mouse encima (desktop)
+   - Fallback si el usuario tiene "reducir movimiento"
+*/
+:root{
+  --card-count: 3;
+  --step: calc(360deg / var(--card-count));
+  --ring-radius: calc(var(--card-width) * 1.22);
+}
+
+/* Convertimos el contenedor en "escenario 3D" */
+#carousel{
+  position: relative;
+  width: 100%;
+  height: calc(var(--card-height) + 120px);
+  padding: 0;                 /* anulamos padding del carrusel horizontal */
+  margin: 0;
+  overflow: hidden;           /* sin scroll horizontal */
+  display: grid;
+  place-items: center;
+  perspective: 1200px;
+  scroll-snap-type: none;
+  touch-action: pan-y;        /* no queremos pan-x acá */
+}
+
+/* El anillo que gira */
+#carousel .carousel-ring{
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+  animation: carouselSpin 16s linear infinite;
+}
+
+/* Un poco de inclinación para que se sienta 3D (cajón de apps) */
+@keyframes carouselSpin{
+  from{ transform: rotateX(-8deg) rotateY(0deg); }
+  to  { transform: rotateX(-8deg) rotateY(360deg); }
+}
+
+/* Cada tarjeta se posiciona en el anillo */
+#carousel .card-wrapper{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform-style: preserve-3d;
+  /* orden: (1) translateZ, (2) rotateY, (3) centrar con translate(-50%,-50%) */
+  transform: translate3d(-50%,-50%,0) rotateY(calc(var(--i) * var(--step))) translateZ(var(--ring-radius));
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Empuje de performance para video dentro de transform 3D */
+#carousel .card,
+#carousel .card video,
+#carousel .card img{
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Pausa en desktop si el usuario pasa el mouse */
+@media (hover:hover){
+  #carousel:hover .carousel-ring{ animation-play-state: paused; }
+}
+
+/* Ajustes responsive */
+@media (max-width: 520px){
+  :root{
+    --card-height: 60vh; /* un poquito más grande en móvil */
+  }
+  #carousel{
+    height: calc(var(--card-height) + 96px);
+    perspective: 900px;
+  }
+  :root{
+    --ring-radius: calc(var(--card-width) * 1.10);
+  }
+}
+
+/* Fallback accesible: si el usuario prefiere menos movimiento, vuelve al scroll horizontal */
+@media (prefers-reduced-motion: reduce){
+  #carousel{
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 40px 0 64px;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-x;
+    display: flex;
+    -webkit-overflow-scrolling: touch;
+  }
+  #carousel .carousel-ring{
+    position: static;
+    inset: auto;
+    animation: none !important;
+    transform: none !important;
+    display: contents;
+  }
+  #carousel .card-wrapper{
+    position: relative;
+    top: auto; left: auto;
+    transform: none !important;
+    margin: 0 10px;
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+  }
+}
+
+
+/* ====== Ajustes solicitados: tamaño + sin inclinación hacia adelante ====== */
+/* Más "derecho" (sin tilt X) y menos distorsión */
+#carousel{ perspective: 1600px; perspective-origin: 50% 50%; }
+
+@keyframes carouselSpin{
+  from{ transform: rotateX(0deg) rotateY(0deg); }
+  to  { transform: rotateX(0deg) rotateY(360deg); }
+}
+
+/* Cards un poco más chicas y menos cerca de la cámara */
+#carousel{
+  --card-height: clamp(320px, 46vh, 520px);
+  --card-width: calc(var(--card-height) * 9 / 16);
+}
+:root{
+  --ring-radius: calc(var(--card-width) * 0.95);
+}
+
+/* Suaviza "zoom" cuando pasan por el frente */
+#carousel .card-wrapper{
+  filter: drop-shadow(0 16px 34px rgba(0,0,0,.32));
+}
+
+/* Mobile: todavía un poco más compacto */
+@media (max-width: 520px){
+  #carousel{
+    --card-height: clamp(320px, 52vh, 520px);
+    perspective: 1200px;
+  }
+  :root{ --ring-radius: calc(var(--card-width) * 0.92); }
+}
+
+</style>
 
   <!-- Meta Pixel Code -->
   <script>
@@ -241,32 +388,31 @@
   <div class="page-aura" aria-hidden="true"></div>
 
   <div id="carousel" aria-label="Promociones destacadas">
-    <div class="card-wrapper">
-      <div class="aura" aria-hidden="true"></div>
+    
+    <div class="carousel-ring" aria-hidden="true">
+<div class="card-wrapper" style="--i:0"><div class="aura" aria-hidden="true"></div>
       <div class="card">
         <video autoplay loop muted playsinline poster="bet30-preview.jpg">
           <source src="bet30-preview.mp4" type="video/mp4" />
         </video>
       </div>
     </div>
-    <div class="card-wrapper">
-      <div class="aura" aria-hidden="true"></div>
+    <div class="card-wrapper" style="--i:1"><div class="aura" aria-hidden="true"></div>
       <div class="card">
         <video autoplay loop muted playsinline poster="ganamos-preview.jpg">
           <source src="ganamos-preview.mp4" type="video/mp4" />
         </video>
       </div>
     </div>
-    <div class="card-wrapper">
-      <div class="aura" aria-hidden="true"></div>
+    <div class="card-wrapper" style="--i:2"><div class="aura" aria-hidden="true"></div>
       <div class="card">
-        <video autoplay loop muted playsinline poster="rhinoplay-preview.jpg">
-          <source src="rhinoplay-preview.mp4" type="video/mp4" />
+        <video autoplay loop muted playsinline poster="rhino-preview.jpg">
+          <source src="rhino-preview.mp4" type="video/mp4" />
         </video>
       </div>
     </div>
+    </div>
   </div>
-
   <!-- Aviso con fade (scroll) -->
   <div class="notice-wrap" aria-label="Aviso importante">
     <div class="notice-rail">
