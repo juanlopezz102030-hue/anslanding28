@@ -583,6 +583,21 @@
   }
 </style>
 
+
+<style id="tune-cylinder-up">
+  /* Subir el cilindro (estaba demasiado abajo) */
+  #carousel{
+    padding-top: calc(env(safe-area-inset-top) + 56px) !important;
+  }
+  #carousel .carousel-ring{
+    transform: translateY(-18px) !important;
+  }
+  @media (max-width: 420px){
+    #carousel{ padding-top: calc(env(safe-area-inset-top) + 52px) !important; }
+    #carousel .carousel-ring{ transform: translateY(-14px) !important; }
+  }
+</style>
+
 </head>
 <body>
   
