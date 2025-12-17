@@ -228,7 +228,7 @@
    El radio se calcula por JS para que las tarjetas "toquen" entre sí.
    Ajustá --ring-overlap si querés un poquito de solape para esconder la unión.
 */
-:root{ --ring-overlap: 0.985; } /* <1 = más pegadas (menos hueco) */
+:root{ --ring-overlap: 0.975; } /* <1 = más pegadas (menos hueco) */
 
 #carousel .card-wrapper{
   width: var(--card-width);
@@ -350,40 +350,6 @@
   }
 }
 
-/* ====== Ajustes (móvil): más chico + seamless entre carrusel y texto ====== */
-:root{
-  /* antes estaba en 55vh; lo bajamos para que no tape la landing */
-  --card-height: clamp(320px, 46vh, 520px);
-}
-
-/* Override fuerte del carrusel original (evita padding y la "línea" visual) */
-#carousel{
-  padding: 0 !important;
-  margin: 0 !important;
-  gap: 0 !important;
-  overflow: hidden !important;
-  scroll-snap-type: none !important;
-  touch-action: pan-y !important;
-  -webkit-overflow-scrolling: auto !important;
-  overscroll-behavior-x: none !important;
-  height: calc(var(--card-height) + 24px) !important;
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/* Pegamos el bloque del aviso al carrusel (sin “corte”) */
-.notice-wrap{
-  margin-top: 10px !important;   /* antes 18px */
-}
-
-/* Un poco más chico en pantallas muy chicas */
-@media (max-width: 390px){
-  :root{ --card-height: clamp(300px, 44vh, 500px); }
-  #carousel{ height: calc(var(--card-height) + 18px) !important; }
-}
-
 </style>
 
   <!-- Meta Pixel Code -->
@@ -403,6 +369,42 @@
     src="https://www.facebook.com/tr?id=767728059169192&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+
+
+<style id="tune-seamless-size">
+  /* Ajustes finales: tamaño del cilindro + unión seamless con el texto */
+  /* 1) Menos espacio "vacío" debajo del cilindro */
+  #carousel{
+    height: calc(var(--card-height) + 34px) !important; /* antes +120px generaba franja */
+    overflow: hidden;
+  }
+
+  /* 2) Quitar la sensación de “corte”: pegamos el aviso al cilindro */
+  .notice-wrap{
+    margin-top: 6px !important; /* antes 18px */
+  }
+
+  /* 3) Mobile: que NO quede demasiado chico */
+  @media (max-width: 560px){
+    :root{
+      /* balance: grande pero deja ver la landing */
+      --card-height: clamp(360px, 54vh, 600px) !important;
+    }
+    #carousel{
+      height: calc(var(--card-height) + 32px) !important;
+      perspective: 1100px;
+    }
+    .notice-wrap{ margin-top: 4px !important; }
+  }
+
+  /* 4) Desktop/tablet: leve ajuste (mantener cómodo) */
+  @media (min-width: 561px){
+    :root{
+      --card-height: clamp(360px, 50vh, 640px) !important;
+    }
+    #carousel{ height: calc(var(--card-height) + 34px) !important; }
+  }
+</style>
 
 </head>
 <body>
