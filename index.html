@@ -350,6 +350,40 @@
   }
 }
 
+/* ====== Ajustes (móvil): más chico + seamless entre carrusel y texto ====== */
+:root{
+  /* antes estaba en 55vh; lo bajamos para que no tape la landing */
+  --card-height: clamp(320px, 46vh, 520px);
+}
+
+/* Override fuerte del carrusel original (evita padding y la "línea" visual) */
+#carousel{
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  scroll-snap-type: none !important;
+  touch-action: pan-y !important;
+  -webkit-overflow-scrolling: auto !important;
+  overscroll-behavior-x: none !important;
+  height: calc(var(--card-height) + 24px) !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Pegamos el bloque del aviso al carrusel (sin “corte”) */
+.notice-wrap{
+  margin-top: 10px !important;   /* antes 18px */
+}
+
+/* Un poco más chico en pantallas muy chicas */
+@media (max-width: 390px){
+  :root{ --card-height: clamp(300px, 44vh, 500px); }
+  #carousel{ height: calc(var(--card-height) + 18px) !important; }
+}
+
 </style>
 
   <!-- Meta Pixel Code -->
