@@ -200,11 +200,11 @@
   50% { box-shadow: 0 10px 26px rgba(37,211,102,.45), 0 0 18px rgba(37,211,102,.35); }
   100% { box-shadow: 0 8px 22px rgba(37,211,102,.25), 0 0 0 rgba(37,211,102,0); }
 }
-@media (min-width: 768px){
-  .wa-cta-wrap{ margin:64px 0 48px }
-  .wa-cta{ width:min(80vw,760px); font-size:17px  position: relative; z-index: 5; }
-  .wa-cta .wa-logo{ height:26px }
-}
+  @media (min-width: 768px){
+    .wa-cta-wrap{ margin:64px 0 48px }
+    .wa-cta{ width:min(80vw,760px); font-size:17px; position: relative; z-index: 5; }
+    .wa-cta .wa-logo{ height:26px }
+  }
 
   
 /* Fades laterales con máscara (no tapa el aura) */
@@ -301,51 +301,81 @@
     (function(){
       const carousel = document.getElementById('carousel');
       if (!carousel) return;
-      const STEP_MS = 4000;       // tiempo entre slides
-      const SCROLL_BEHAVIOR = 'smooth';
-      let timer = null;
-      let pausedUntil = 0;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) return;
 
-      function cardStep() {
-        const firstCard = carousel.querySelector('.card-wrapper');
-        if (!firstCard) return 0;
-        const style = getComputedStyle(firstCard);
-        const marginL = parseFloat(style.marginLeft) || 0;
-        const marginR = parseFloat(style.marginRight) || 0;
-        return firstCard.getBoundingClientRect().width + marginL + marginR;
+      const PX_PER_MS = 0.08; // velocidad continua
+      const PAUSE_MS = 5000;
+      let animationId = null;
+      let lastTs = 0;
+      let baseWidth = 0;
+      let paused = false;
+      let pauseTimeout = null;
+
+      const originalCards = Array.from(carousel.querySelectorAll('.card-wrapper'));
+      if (!originalCards.length) return;
+
+      // Duplicamos las tarjetas para lograr un loop infinito sin saltos
+      const clones = document.createDocumentFragment();
+      originalCards.forEach(card => clones.appendChild(card.cloneNode(true)));
+      carousel.appendChild(clones);
+
+      function updateWidth() {
+        baseWidth = carousel.scrollWidth / 2; // mitad porque duplicamos el set
+        normalizeScroll();
       }
 
-      function next() {
-        const step = cardStep();
-        if (!step) return;
-        const { scrollLeft, scrollWidth, clientWidth } = carousel;
-        // Si estamos cerca del final, volvemos al inicio
-        if (scrollLeft + clientWidth >= scrollWidth - step * 0.6) {
-          carousel.scrollTo({ left: 0, behavior: SCROLL_BEHAVIOR });
-        } else {
-          carousel.scrollTo({ left: scrollLeft + step, behavior: SCROLL_BEHAVIOR });
+      function normalizeScroll() {
+        if (!baseWidth) return;
+        if (carousel.scrollLeft >= baseWidth) {
+          carousel.scrollLeft -= baseWidth;
+        } else if (carousel.scrollLeft < 0) {
+          carousel.scrollLeft += baseWidth;
         }
       }
 
-      function start() {
-        stop();
-        timer = setInterval(() => {
-          const now = Date.now();
-          if (now < pausedUntil) return; // respetar pausa por interacción
-          next();
-        }, STEP_MS);
+      function scheduleResume(ms) {
+        paused = true;
+        if (pauseTimeout) clearTimeout(pauseTimeout);
+        pauseTimeout = setTimeout(() => { paused = false; }, ms);
       }
-      function stop() { if (timer) { clearInterval(timer); timer = null; } }
 
-      // Pausar en interacción del usuario y reanudar luego
+      function tick(ts) {
+        if (!lastTs) lastTs = ts;
+        const delta = ts - lastTs;
+        lastTs = ts;
+
+        if (!paused && baseWidth) {
+          carousel.scrollLeft += PX_PER_MS * delta;
+          normalizeScroll();
+        }
+        animationId = requestAnimationFrame(tick);
+      }
+
+      function start() {
+        if (animationId) return;
+        lastTs = 0;
+        animationId = requestAnimationFrame(tick);
+      }
+
+      function stop() {
+        if (!animationId) return;
+        cancelAnimationFrame(animationId);
+        animationId = null;
+        lastTs = 0;
+      }
+
       ['pointerdown','touchstart','mouseenter','focusin'].forEach(evt => {
-        carousel.addEventListener(evt, () => { pausedUntil = Date.now() + 7000; }, { passive: true });
+        carousel.addEventListener(evt, () => scheduleResume(PAUSE_MS), { passive: true });
       });
 
-      // Recalcular al rotar / cambiar tamaño
-      window.addEventListener('resize', () => { pausedUntil = Date.now() + 1000; }, { passive: true });
+      carousel.addEventListener('scroll', normalizeScroll, { passive: true });
 
-      // Iniciar cuando el carrusel esté en viewport (por si se carga abajo)
+      window.addEventListener('resize', () => {
+        scheduleResume(1000);
+        updateWidth();
+      }, { passive: true });
+
       const startWhenVisible = () => {
         const rect = carousel.getBoundingClientRect();
         if (rect.bottom > 0 && rect.top < innerHeight) {
@@ -353,10 +383,12 @@
           document.removeEventListener('scroll', startWhenVisible, true);
         }
       };
+
       document.addEventListener('scroll', startWhenVisible, true);
+      updateWidth();
       startWhenVisible();
-      // fallback por si no se dispara scroll
       setTimeout(start, 1000);
+      window.addEventListener('pagehide', stop);
     })();
   </script>
 
